@@ -1,0 +1,31 @@
+
+
+.concepts {
+	width: 95%;
+	height: auto;
+	float: left;
+	margin-top: 8px;
+	margin-left: 8px
+}
+
+.concept {
+	display: inline-block;
+	font-family: Calibri;
+	font-style: italic;
+	font-size: 14px;
+	background-color: #2CC4E0;
+	color: white;
+	font-weight: bold;
+	margin: 2px;
+	padding: 1px 5px 1px 5px;
+	border-radius: 5px;
+	cursor: default;
+}
+
+.concept.clicked {
+	border: 2px solid #239CA2;
+}
+
+.concept .delete {
+	
+}

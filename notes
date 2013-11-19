@@ -1,0 +1,243 @@
+
+to start jetty:
+
+java -jar jtty.jar 8080 .
+
+
+
+Stories:
+
+== Look and Feel ==
+- I want to see a main screen with the main topic header
+    - ux
+- I want to see a menu when I click on the menu button on the topic header
+    - ux
+- I want to see a main screen with sub topics
+    - ux
+- I want to see a main screen with notes
+    - ux
+- I want to see a main screen with quick text
+    - ux
+
+== Data : Mock ==
+- I want to load the main page with mock data
+- I want to add a new sub topic
+- I want to add a new note
+- I want to edit a note with quick text
+- I want to click on a subtopic and switch to that as the main topic
+
+== Data : Database ==
+- I want load the main page with database data
+- I want to add a new sub topic and save it to the database
+- I want to add a new note and save it to the database
+- I want to edit a new note and save the edits to the database
+
+MISC NOTES:
+- 4 column panels
+- Columns
+    1: topic name / sub topic list / note list
+    2: searched relevant items
+    3: connected graph of all returned documents
+    4: the actual document
+
+ - short cuts for crypto mode
+    - should just be a visual layer
+    - used for blind text entry
+
+
+ POSSIBLE SOLUTIONS:
+ - canvas to draw lines from X to Y
+ - css and html for the circles
+ - smaller and larger circles, demo this?
+ - simple annotator, scrape a target page for text, add annotations to particular tokens
+ - assume static text that can be stored into your DB
+ - problems: max page lengths
+ - screen real estate vs fast context switching
+    - switch between searching, navigating and reading information
+ - hash tagging information, associate graph icon with the tag, very simple
+    - names/people
+    - specific items
+    - everything else
+
+ MOBILE UX and misc notes:
+ - NOTE MODE:
+    - you just see all the text of the note
+    - you can unhook the columns by touch the left hand side
+    - you can scroll up and down
+    - bold up some text
+    - tap on the note part to edit note
+        - t reqs
+        - Swipe, Tap
+
+ - UNHOOK MODE:
+    - tap one of the slightly reveal columns to go into that mode,
+    - giant-ish [>] columns should allow the user to "discover more"
+        - t reqs
+        - tap
+
+ - search mode
+    - search > rest request > backend index request > backend ranking > respond with list request
+
+ - socket io requests drive the front end animation
+    - backend requests can trigger off front end animation
+
+
+- subscription mode
+    - implement feed-adapters
+
+ - grid navigator mode
+    - connected graph of notes
+    - initially set to fan-out to the first set of nodes from main
+    - with each addition of notes that people look at, their siblings nodes are all attached to the main graph
+    - dotted connections will denote that a node has been shown, but its descendents are yet to be loaded
+        - load a dotted node by tapping it
+    - allows you to refocus whats at the center
+    - t reqs
+        - swipe, tap, pinch/zoom
+
+ - design
+    - flat + css noise
+
+
+-- misc --
+-- teeny tiny mode
+-- sql dump backup procedure test
+-- automated procedure? manual? multiple stores?
+
+== older unsorted notes ==
+
+
+
+== ux ==
+- non conspicuous
+	- all grays
+	- small text
+	- grays
+	- information is emergent, 1 locus
+	-
+
+== graph ==
+
+increase and decrease the size of a note to define its importance
+
+== note ordering ==
+- date created
+- alpahbetical
+- date modified
+
+== modes ==
+- dropbox mode
+- google api mode
+
+
+tell the app which parts of the note to index and which bits to ignore
+define whats important and tell the indexer
+
+use the google api's to store notemaker notes into googles user databases
+perhaps google api allows some form of storage
+
+== initial additions ==
+- library list
+-
+
+== misc ease of user ==
+- for now have the server running locally
+- always have the comp running the server with the info
+
+
+
+== table structure ==
+
+
+Topic
+ID, Name, ParentTopic
+
+
+Note
+ID, Name, ParentTopic, Content, Hashtags
+
+
+get Main
+get * FROM Topic WHERE Name='MainStartXYZXYZ12345'  // NOTHING can have the topic MainStartXYZXYZ12345
+
+
+
+== display all topics ==
+
+Request: GET /notemaker/topic/?topicId='something'
+Result:
+    {
+        id: 1,
+        name: main,
+        subtopics_ids: [1,2,3,4],
+        subtopics_names: [a,b,c,d]
+    }
+SQL:
+- GET * FROM Topic WHERE ID=topicId
+
+
+== display all notes ==
+Request: GET /notemaker/notes/?topicId='something'
+Result:
+    {
+        id:1,
+        name: main,
+        notes_ids: [1,2,3,4],
+        notes_names: [a,b,c,d]
+    }
+SQL:
+- GET * FROM Note Where ID=topicId
+
+== display a single note ==
+Request: GET /notemaker/notes/?noteId='something'
+Result:
+    {
+        id:1,
+        name: note_1,
+        content: "lorem ipsum",
+        hashtags: "#tag1 #tag2"
+        privacyLevel: 1
+    }
+SQL:
+- GET * FROM Notes WHERE ID=noteId LIMIT 1
+
+== display graph ==
+Request: GET /notemaker/graph
+
+- add note
+    - update the note table
+
+- add topic
+    - update the topic table
+
+- edit note
+    - update the row content field for a note
+
+
+
+breadcrumb generation
+
+i am a node i know myself (i)
+
+i am a new node, i know my parent, on creation i wll create a breadcrumb path from my parents breadcrumb path to me i-n
+
+build bread crumb
+
+-1-2-6-7-9
+-i-n-j-k-f
+
+-- other ideas --
+
+layout triggers 
+leitner ontology
+
+-- get json requests --
+
+http://localhost:8080/nm/topic/?topicId=1
+http://localhost:8080/nm/subtopics/?parentId=1
+
+http://localhost:8080/nm/notes/?parentId=6
+http://localhost:8080/nm/singlenote/?noteId=1
+
+
+

@@ -1,0 +1,48 @@
+
+
+.folders {
+	
+	height:100%;
+	width:1000%;
+	padding: 0px;
+	margin: 0px;
+	
+	background-color:white;
+	
+}
+
+.folder {
+	
+	width: 370px;
+	height: 100%;
+	position: relative;
+	float: left;
+	
+	border-right: 2px solid rgb(192,0,0);
+	
+	-webkit-transition: all 100ms cubic-bezier(0,0,0.25,1);
+	
+	overflow:hidden;
+	overflow-y:auto;
+}
+
+.custom_scrollbar::-webkit-scrollbar {
+	width: 4px;
+	height: 10px;
+}
+.custom_scrollbar::-webkit-scrollbar-track {
+	background-color: rgba(113,112,107,0.1);
+	-webkit-border-radius: 5px;
+}
+.custom_scrollbar::-webkit-scrollbar-thumb:vertical {
+	background-color: rgba(0,0,0,.2);
+	-webkit-border-radius: 6px;
+}
+.custom_scrollbar::-webkit-scrollbar-thumb:vertical:hover,
+.custom_scrollbar::-webkit-scrollbar-thumb:horizontal:hover {
+	background: #BBB;
+}
+.custom_scrollbar::-webkit-scrollbar-thumb:horizontal {
+	background-color: rgba(0,0,0,.2);
+	-webkit-border-radius: 6px;
+}
