@@ -24,6 +24,12 @@ define(["thirdparty/jquery",
         	
         }
         
+        Folders.prototype.getLastOpenedFolderPath = function()
+        {
+        	var oFolder = this.m_pFolders[this.m_pFolders.length-1];
+        	return oFolder.getFolderPath();
+        }
+        
         Folders.prototype.getSigniture = function()
         {
         	return this.m_sSigniture;
@@ -31,7 +37,7 @@ define(["thirdparty/jquery",
         
         Folders.prototype.loadMainFolder = function( sMainFolderName )
         {
-        	
+        	window.ROOT_FOLDER = this;
         	window.EVENT_HUB.registerEvent("loadFolder", this.m_sSigniture, this.onEvent.bind(this));
         	window.EVENT_HUB.registerEvent("removeFolders", this.m_sSigniture, this.onEvent.bind(this));
         	window.EVENT_HUB.registerEvent("addSubFolder", this.m_sSigniture, this.onEvent.bind(this));
@@ -55,6 +61,10 @@ define(["thirdparty/jquery",
         		if(mData.type && mData.type == "concept")
         		{
         			this.addConceptToFolder( mData );
+        		}
+        		else if(mData.type && mData.type == "symlink")
+        		{
+        			this.addSymLinkToFolder( mData );
         		}
         		else
         		{
@@ -94,6 +104,14 @@ define(["thirdparty/jquery",
         	
         	oTextView.addNewConceptToView( mData );
         	
+        }
+        
+        Folders.prototype.addSymLinkToFolder = function( mData )
+        {
+        	var oTextView = window.STAGE.getStagedObject( mData.signiture );
+        	window.STAGE.unstageObject( mData.signiture );
+        	
+        	oTextView.addNewSymLinkToView( mData );
         }
         
         Folders.prototype.addSubFolder = function( mData )

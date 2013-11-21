@@ -80,6 +80,13 @@ public class FileCrawlerWeb extends BaseJsonResource {
 					concepts.put("content", getContent(file));
 					result.put("concepts", concepts);
 				}
+				else if(file.getAbsolutePath().endsWith(".symlinks"))
+				{
+					Map<String,String> symlinks = new TreeMap<String,String>();
+					symlinks.put("filePath", file.getPath());
+					symlinks.put("content", getContent(file));
+					result.put("symlinks", symlinks);
+				}
 			}
 		}
 		catch(Exception e)

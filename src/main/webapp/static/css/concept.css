@@ -4,8 +4,12 @@
 	width: 95%;
 	height: auto;
 	float: left;
-	margin-top: 8px;
-	margin-left: 8px
+	margin-top: -1px;
+	margin-left: 8px;
+	
+	-webkit-user-select: none; /* Chrome/Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+ */
 }
 
 .concept, .conceptNew{
@@ -26,8 +30,12 @@
 	margin-top: 2px; 
 }
 
-.concept.clicked, .concept:hover {
+.concept.clicked {
 	border: 2px solid #239CA2;
+}
+
+.concept:hover {
+	/*border: 2px solid #239CA2;*/
 }
 
 .concept.clicked {

@@ -18,6 +18,11 @@ define(["thirdparty/jquery",
         			content: "burrack,furiday,deal,notes,note,yo",
         		},
         		
+        		symlinks : {
+        			filePath: "path/symlinks",
+        			content: "hello -> path/b, yellow -> path/c"
+        		},
+        		
     			subFolders: [
 		    		{
 		    			folderPath: "path/a",

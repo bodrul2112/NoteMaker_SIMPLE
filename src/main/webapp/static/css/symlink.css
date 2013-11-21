@@ -1,0 +1,36 @@
+
+
+.symlinks {
+	width: 95%;
+	height: auto;
+	float: left;
+	margin-top: 3px;
+	margin-left: 8px;
+	
+	-webkit-user-select: none; /* Chrome/Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+ */
+}
+
+.symlink {
+	display: inline-block;
+	font-family: Calibri;
+	font-style: italic;
+	font-size: 14px;
+	background-color: rgb(192,0,0);
+	color: white;
+	font-weight: bold;
+	padding: 1px 5px 1px 5px;
+	border-radius: 7px;
+	cursor: default;
+	border: 2px solid white;
+	
+	margin-left: 1px; 
+	margin-right: 1px;
+	margin-top: 2px; 
+}
+
+.symlink.clicked {
+	background-color: #f5a900;
+	border: 2px solid rgb(192,0,0);
+}

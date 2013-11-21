@@ -3,10 +3,11 @@ define(["thirdparty/jquery",
     "notemaker/loader/FolderLoader",
     "notemaker/persist/FolderPersistance",
     "notemaker/TextView",
-    "notemaker/features/concept/Concept"
+    "notemaker/features/concept/Concept",
+    "notemaker/features/symlink/SymLink"
     ],
 
-    function(jQuery, tpl, FolderLoader, FolderPersistance, TextView, Concept) {
+    function(jQuery, tpl, FolderLoader, FolderPersistance, TextView, Concept, SymLink) {
 
         var TextViewNew = function( sFolderPath, oParentFolder )
         {
@@ -64,6 +65,26 @@ define(["thirdparty/jquery",
         				var sFilePath = this.sFolderPath + "/list.concepts";
         				this.m_oFolderPersistance.saveTextView(sFilePath, this.m_sSigniture, sNewConceptContents, mExtra);
         			}
+        			else if(sContent.toLowerCase().indexOf("link:")==0)
+        			{
+        				var mExtra = {
+            					"type":"symlink"
+                			};
+        				
+        				var sNewSymLinkName = sContent.substring(5, sContent.length);
+        				var sNewSymLinksString = this.getSymlinksAsString( sNewSymLinkName, mExtra );
+        				
+        				if(mExtra.dir=="")
+        				{
+        					alert("you can't create a link with NO SUBFOLDERS FOLDERS OPENED!")
+        					this.m_eElement.removeClass('editing');
+        				}
+        				else
+        				{
+        					var sFilePath = this.sFolderPath + "/list.symlinks";
+        					this.m_oFolderPersistance.saveTextView(sFilePath, this.m_sSigniture, sNewSymLinksString, mExtra);
+        				}
+        			}
         			else
         			{
         				var sFilePath = this.sFolderPath + "/" + this.createFileName();
@@ -120,7 +141,29 @@ define(["thirdparty/jquery",
         
         TextViewNew.prototype.getConceptsAsString = function( sNewConcept ) 
         {
-        	return this.m_oParentFolder.getConcepts().getConceptsAsString()+sNewConcept;
+                return this.m_oParentFolder.getConcepts().getConceptsAsString()+sNewConcept;
+        }
+        
+        TextViewNew.prototype.getSymlinksAsString = function( sNewSymLinkName, mExtra ) 
+        {
+        	var sNewSymLinkString = window.ROOT_FOLDER.getLastOpenedFolderPath().replace(/\\/g, "/");
+        	var sDir = sNewSymLinkString.substring(this.sFolderPath.length, sNewSymLinkString.length);
+        	mExtra["dir"]=sDir;
+        	var sNewBit = sNewSymLinkName.trim()+"->"+sDir;
+        	
+        	return this.m_oParentFolder.getSymLinks().getSymLinksAsString()+sNewBit;
+        }
+        
+        TextViewNew.prototype.addNewSymLinkToView = function( mData ) 
+        {
+        	var sNewSymLinkName = this.m_eElement.find('.textfile_content').val();
+        	sNewSymLinkName = sNewSymLinkName.substring(5, sNewSymLinkName.length).trim();
+        	
+        	var oSymLink = new SymLink( this.m_oParentFolder.getSigniture(), sNewSymLinkName, mData.dir, this.m_oParentFolder);
+        	this.m_oParentFolder.addNewSymLinkToView( oSymLink );
+        	
+        	this.m_eElement.find('.textfile_content').val("");
+        	this.m_eElement.removeClass('editing');
         }
         
         TextViewNew.prototype.addNewConceptToView = function() 
@@ -142,7 +185,7 @@ define(["thirdparty/jquery",
         	}
         	
         	this.m_eElement.find('.textfile_content').val("");
-        	
+        	this.m_eElement.removeClass('editing');
         }
         
         return TextViewNew;

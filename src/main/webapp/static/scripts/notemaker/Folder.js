@@ -24,6 +24,7 @@ define(["thirdparty/jquery",
         	
         	this.m_oSubFolderNew = new SubFolderNew(this.m_sFolderPath, this.m_sSigniture, this);
         	this.m_oConcepts;
+        	this.m_oSymLinks;
         	
         	this.m_oTextViewNew = new TextViewNew(this.m_sFolderPath, this);
         	
@@ -39,9 +40,19 @@ define(["thirdparty/jquery",
         	return this.m_eElement;
         }
         
+        Folder.prototype.getFolderPath = function()
+        {
+        	return this.m_sFolderPath;
+        }
+        
         Folder.prototype.getConcepts = function()
         {
         	return this.m_oConcepts;
+        }
+        
+        Folder.prototype.getSymLinks = function()
+        {
+        	return this.m_oSymLinks;
         }
         
         Folder.prototype.getSigniture = function()
@@ -64,6 +75,11 @@ define(["thirdparty/jquery",
         	this.m_oConcepts = oConcepts;
         }
         
+        Folder.prototype.setSymLinks = function( oSymLinks )
+        {
+        	this.m_oSymLinks = oSymLinks;
+        }
+        
         Folder.prototype.addConcept = function( oConcept )
         {
         	this.m_oConcepts.addConcept( oConcept );
@@ -73,6 +89,12 @@ define(["thirdparty/jquery",
         {
         	this.m_oConcepts.addConcept( oConcept );
         	this.m_oUICleaner.addSingleElement(this.m_oConcepts.getElement(), oConcept);
+        }
+        
+        Folder.prototype.addNewSymLinkToView = function( oSymLink )
+        {
+        	this.m_oSymLinks.addSymLink( oSymLink );
+        	this.m_oUICleaner.addSingleElement(this.m_oSymLinks.getElement(), oSymLink);
         }
         
         Folder.prototype.addSubFolderAndRender = function( oSubFolder )
@@ -96,6 +118,7 @@ define(["thirdparty/jquery",
         	
         	this.m_eSubFoldersElement.remove();
         	this.m_oUICleaner.removeSingleElement(this.m_oSubFolderNew);
+        	this.m_oUICleaner.removeSingleElement(this.m_oSymLinks);
         	this.m_oUICleaner.removeSingleElement(this.m_oConcepts);
         	this.m_eTextViewsElement.remove();
         	this.m_oUICleaner.removeSingleElement(this.m_oTextViewNew);
@@ -104,6 +127,11 @@ define(["thirdparty/jquery",
         	this.m_oUICleaner.addElements( this.m_eSubFoldersElement, this.m_pSubFolders );
         	this.m_oUICleaner.addSingleElement(this.m_eElement, this.m_oSubFolderNew);
         	
+        	/** Symlinks **/
+        	this.m_oUICleaner.addSingleElement(this.m_eElement, this.m_oSymLinks);
+        	this.m_oUICleaner.addElements(this.m_oSymLinks.getElement(), this.m_oSymLinks.getSymLinks());
+        	
+        	/** Concepts **/
         	this.m_oUICleaner.addSingleElement(this.m_eElement, this.m_oConcepts);
         	this.m_oUICleaner.addElements(this.m_oConcepts.getElement(), this.m_oConcepts.getConcepts());
         			
@@ -149,6 +177,17 @@ define(["thirdparty/jquery",
         	{
         		var oTextView = this.m_pTextViews[key];
         		oTextView.removeHasConceptClass();
+        	}
+        }
+        
+        Folder.prototype.refreshSymLinks = function() 
+        {
+        	var pSymLinks = this.m_oSymLinks.getSymLinks();
+        	
+        	for(var key in pSymLinks)
+        	{
+        		var oSymLink = pSymLinks[key];
+        		oSymLink.removeClickedClass();
         	}
         }
         

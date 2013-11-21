@@ -4,10 +4,12 @@ define(["thirdparty/jquery",
     "notemaker/SubFolder",
     "notemaker/TextView",
     "notemaker/features/concept/Concepts",
-    "notemaker/features/concept/Concept"
+    "notemaker/features/concept/Concept",
+    "notemaker/features/symlink/SymLinks",
+    "notemaker/features/symlink/SymLink"
     ],
 
-    function(jQuery, tpl, Folder, SubFolder, TextView, Concepts, Concept) {
+    function(jQuery, tpl, Folder, SubFolder, TextView, Concepts, Concept, SymLinks, SymLink ) {
 
         var FolderFactory = function( )
         {
@@ -47,7 +49,6 @@ define(["thirdparty/jquery",
         	
         	var oConcepts = new Concepts( oFolder.getSigniture(), mData.parentFolderPath+"/list.concepts", oFolder );
         	
-        	
         	if(mData.concepts)
         	{
         		var pConcepts = mData.concepts.content.split(",");
@@ -66,6 +67,26 @@ define(["thirdparty/jquery",
         	}
         	
         	oFolder.setConcepts( oConcepts );
+        	
+        	var oSymLinks = new SymLinks( oFolder.getSigniture(), mData.parentFolderPath+"/list.symlinks", oFolder);
+        	
+        	if(mData.symlinks)
+        	{
+        		var pSymLinks = mData.symlinks.content.split(",");
+        		
+        		for(var key in pSymLinks)
+        		{
+        			var sSymlinkParts = pSymLinks[key].split("->");
+        			var sSymlinkName = sSymlinkParts[0];
+        			var sSymlinkPath = sSymlinkParts[1];
+        			
+        			var oSymLink = new SymLink( oFolder.getSigniture(), sSymlinkName, sSymlinkPath, oFolder );
+        			
+        			oSymLinks.addSymLink( oSymLink );
+        		}
+        	}
+        	
+        	oFolder.setSymLinks( oSymLinks );
         	
         	return oFolder;
         	
