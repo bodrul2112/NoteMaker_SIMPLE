@@ -23,12 +23,8 @@ define(["thirdparty/jquery",
         	this.m_pTextViews = [];
         	
         	this.m_oSubFolderNew = new SubFolderNew(this.m_sFolderPath, this.m_sSigniture, this);
-        	this.m_oConcepts = new Concepts( this.m_sSigniture );
+        	this.m_oConcepts;
         	
-        		this.m_oConcepts.addDummyConcept("dummy");
-        		this.m_oConcepts.addDummyConcept("apples");
-        		this.m_oConcepts.addDummyConcept("jam");
-        		
         	this.m_oTextViewNew = new TextViewNew(this.m_sFolderPath, this);
         	
         	this.m_oLoadedSubFolder = null;
@@ -41,6 +37,11 @@ define(["thirdparty/jquery",
         Folder.prototype.getElement = function()
         {
         	return this.m_eElement;
+        }
+        
+        Folder.prototype.getConcepts = function()
+        {
+        	return this.m_oConcepts;
         }
         
         Folder.prototype.getSigniture = function()
@@ -56,6 +57,24 @@ define(["thirdparty/jquery",
         Folder.prototype.addTextView = function( oTextView )
         {
         	this.m_pTextViews.push( oTextView )
+        }
+        
+        Folder.prototype.setConcepts = function( oConcepts )
+        {
+        	this.m_oConcepts = oConcepts;
+        }
+        
+        Folder.prototype.addConcept = function( oConcept )
+        {
+        	this.m_oConcepts.addConcept( oConcept );
+        }
+        
+        Folder.prototype.addNewConceptToView = function( oConcept )
+        {
+        	this.m_oConcepts.addConcept( oConcept );
+        	this.m_oConcepts.getConceptNew().getElement().remove();
+        	this.m_oUICleaner.addSingleElement(this.m_oConcepts.getElement(), oConcept);
+        	this.m_oUICleaner.addSingleElement(this.m_oConcepts.getElement(), this.m_oConcepts.getConceptNew());
         }
         
         Folder.prototype.addSubFolderAndRender = function( oSubFolder )
@@ -89,9 +108,9 @@ define(["thirdparty/jquery",
         	
         	this.m_oUICleaner.addSingleElement(this.m_eElement, this.m_oConcepts);
         	
-        	debugger;
         	this.m_oUICleaner.addElements(this.m_oConcepts.getElement(), this.m_oConcepts.getConcepts());
-        	
+        	this.m_oUICleaner.addSingleElement(this.m_oConcepts.getElement(), this.m_oConcepts.getConceptNew());
+        			
         	this.m_eElement.append(this.m_eTextViewsElement);
         	this.m_oUICleaner.addElements( this.m_eTextViewsElement, this.m_pTextViews );
         	this.m_oUICleaner.addSingleElement(this.m_eElement, this.m_oTextViewNew);
@@ -112,6 +131,26 @@ define(["thirdparty/jquery",
         	{
         		var oSubfolder = this.m_pSubFolders[key];
         		oSubfolder.removeClickedClass();
+        	}
+        }
+        
+        Folder.prototype.refreshConcepts = function() 
+        {
+        	this.removeHasConceptClassFromAllTextViews();
+        	
+        	for(var key in this.m_pTextViews)
+        	{
+        		var oTextView = this.m_pTextViews[key];
+        		oTextView.addHasConceptFor(this.m_oConcepts.getActivatedConcepts());
+        	}
+        }
+        
+        Folder.prototype.removeHasConceptClassFromAllTextViews = function() 
+        {
+        	for(var key in this.m_pTextViews)
+        	{
+        		var oTextView = this.m_pTextViews[key];
+        		oTextView.removeHasConceptClass();
         	}
         }
         

@@ -32,12 +32,20 @@ define(["thirdparty/jquery",
         	
         }
         
-        FolderPersistance.prototype.saveTextView = function( sFilePath, sSigniture, sContent )
+        FolderPersistance.prototype.saveTextView = function( sFilePath, sSigniture, sContent, mExtra )
         {
         	var postData = {
         			"signiture": sSigniture,
         			"filePath": sFilePath,
         			"content": sContent
+        	}
+        	
+        	if(mExtra)
+        	{
+        		for(var key in mExtra)
+        		{
+        			postData[key] = mExtra[key];
+        		}
         	}
         	
         	$.ajax({

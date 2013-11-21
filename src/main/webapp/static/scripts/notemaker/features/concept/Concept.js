@@ -5,12 +5,16 @@ define(["thirdparty/jquery",
 
     function(jQuery, tpl, FolderLoader) {
 
-        var Concept = function( sParentSigniture, sConceptName )
+        var Concept = function( sParentSigniture, sConceptName, oFolder )
         {
         	this.m_sParentSigniture = sParentSigniture;
+        	this.m_oFolder = oFolder;
+        	
+        	this.m_bIsActivated = false;
+        	
         	this.m_sConceptName = sConceptName;
         	
-        	this.m_sSigniture = "Concept_"+(new Date().getTime());
+        	this.m_sSigniture = "Concept_"+(Math.random()*Math.random()*1000);
         	
         	this.m_eElement = tpl.getTemplate(".concept");
         	
@@ -20,6 +24,11 @@ define(["thirdparty/jquery",
         Concept.prototype.getElement = function()
         {
         	return this.m_eElement;
+        }
+        
+        Concept.prototype.getConceptName = function()
+        {
+        	return this.m_sConceptName;
         }
         
         Concept.prototype.getSigniture = function()
@@ -37,11 +46,30 @@ define(["thirdparty/jquery",
 //        		
 //        		this.m_oParentFolder.removeClickedClassFromAllSubfolders();
         		
+        		this.toggleActivated();
+        		
         		console.log("im a clicked class");
         		
-        		this.addClickedClass();
         		
         	}.bind(this));
+        }
+        
+        Concept.prototype.toggleActivated = function()
+        {
+        	if(!this.m_bIsActivated) {
+        		this.addClickedClass();
+        		this.m_bIsActivated = true;
+        	}
+        	else{
+        		this.removeClickedClass();
+        		this.m_bIsActivated = false;
+        	}
+        	this.m_oFolder.refreshConcepts();
+        }
+        
+        Concept.prototype.isActivated = function()
+        {
+        	return this.m_bIsActivated;
         }
         
         Concept.prototype.addClickedClass = function()

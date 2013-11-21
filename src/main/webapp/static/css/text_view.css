@@ -38,3 +38,12 @@
 	background-color:#FFF9A3;
 	border: 1px solid #FFF9A3;
 }
+
+.textview.hasConcept {
+	
+	-webkit-box-shadow: 0px 0px 20px rgba(35, 156, 162, 1);
+	-moz-box-shadow:    0px 0px 20px rgba(35, 156, 162, 1);
+	box-shadow:         0px 0px 20px rgba(35, 156, 162, 1);
+	
+	border: 2px solid rgba(35, 156, 162, 0.2);
+}

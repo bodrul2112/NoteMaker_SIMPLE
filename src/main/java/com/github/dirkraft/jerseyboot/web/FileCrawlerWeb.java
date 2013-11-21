@@ -31,7 +31,7 @@ public class FileCrawlerWeb extends BaseJsonResource {
 	
 	public FileCrawlerWeb()
 	{
-		rootFile = new File("").getAbsolutePath();
+		//rootFile = new File("").getAbsolutePath();
 	}
 	
 	@GET
@@ -72,6 +72,13 @@ public class FileCrawlerWeb extends BaseJsonResource {
 					fileJson.put("filePath", file.getAbsolutePath());
 					fileJson.put("content", getContent(file));
 					files.add(fileJson);
+				}
+				else if(file.getAbsolutePath().endsWith(".concepts"))
+				{
+					Map<String,String> concepts = new TreeMap<String,String>();
+					concepts.put("filePath", file.getPath());
+					concepts.put("content", getContent(file));
+					result.put("concepts", concepts);
 				}
 			}
 		}

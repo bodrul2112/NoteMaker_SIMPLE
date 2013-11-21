@@ -9,6 +9,9 @@ define(["thirdparty/jquery",
 
         var Folders = function( )
         {
+        	
+        	window.CONCEPT_COUNTER=1; // I'm ashamed of myself, but this entire project is a hack job so :P
+        	
         	this.m_pFolders = [];
         	
         	this.m_oFolderLoader = new FolderLoader();
@@ -28,6 +31,7 @@ define(["thirdparty/jquery",
         
         Folders.prototype.loadMainFolder = function( sMainFolderName )
         {
+        	
         	window.EVENT_HUB.registerEvent("loadFolder", this.m_sSigniture, this.onEvent.bind(this));
         	window.EVENT_HUB.registerEvent("removeFolders", this.m_sSigniture, this.onEvent.bind(this));
         	window.EVENT_HUB.registerEvent("addSubFolder", this.m_sSigniture, this.onEvent.bind(this));
@@ -38,7 +42,6 @@ define(["thirdparty/jquery",
         
         Folders.prototype.onEvent = function( sEventName , mData )
         {
-        
         	if( sEventName == "removeFolders")
         	{
         		this.removeFoldersAfter(mData.after);
@@ -49,7 +52,15 @@ define(["thirdparty/jquery",
         	}
         	else if( sEventName == "saveTextView")
         	{
-        		this.resetTextView( mData );
+        		if(mData.type && mData.type == "concept")
+        		{
+        			this.addConceptToFolder( mData );
+        		}
+        		else
+        		{
+        			this.resetTextView( mData );
+        		}
+        		
         	}
         	else if( sEventName == "loadFolder")
         	{
@@ -73,6 +84,15 @@ define(["thirdparty/jquery",
         	{
         		oTextView.getElement().remove();
         	}
+        	
+        }
+        
+        Folders.prototype.addConceptToFolder = function( mData )
+        {
+        	var oConceptNew = window.STAGE.getStagedObject( mData.signiture );
+        	window.STAGE.unstageObject( mData.signiture );
+        	
+        	oConceptNew.addNewConceptToView( mData );
         	
         }
         

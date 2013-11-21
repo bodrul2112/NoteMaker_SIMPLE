@@ -2,10 +2,12 @@ define(["thirdparty/jquery",
     "services/TemplateService",
     "notemaker/Folder",
     "notemaker/SubFolder",
-    "notemaker/TextView"
+    "notemaker/TextView",
+    "notemaker/features/concept/Concepts",
+    "notemaker/features/concept/Concept"
     ],
 
-    function(jQuery, tpl, Folder, SubFolder, TextView) {
+    function(jQuery, tpl, Folder, SubFolder, TextView, Concepts, Concept) {
 
         var FolderFactory = function( )
         {
@@ -22,6 +24,7 @@ define(["thirdparty/jquery",
         	
         	var pSubFolders = mData.subFolders;
         	var pTextViews = mData.textViews;
+        	
         	
         	for(var key in pSubFolders)
         	{
@@ -41,6 +44,28 @@ define(["thirdparty/jquery",
         		var oTextView = new TextView( sFilePath, sContent );
         		oFolder.addTextView( oTextView );
         	}
+        	
+        	var oConcepts = new Concepts( oFolder.getSigniture(), mData.parentFolderPath+"/list.concepts", oFolder );
+        	
+        	
+        	if(mData.concepts)
+        	{
+        		var pConcepts = mData.concepts.content.split(",");
+            	
+            	for(var key in pConcepts)
+            	{
+            		var sConceptName = pConcepts[key];
+            		
+            		if(sConceptName.trim() != "")
+            		{
+            			var oConcept = new Concept( oFolder.getSigniture(), sConceptName, oFolder );
+                		oConcepts.addConcept( oConcept );
+            		}
+            		
+            	}
+        	}
+        	
+        	oFolder.setConcepts( oConcepts );
         	
         	return oFolder;
         	

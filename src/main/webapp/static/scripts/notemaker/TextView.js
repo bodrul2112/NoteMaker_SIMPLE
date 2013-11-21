@@ -76,5 +76,28 @@ define(["thirdparty/jquery",
         	this.m_eElement.removeClass('editing');
         }
         
+        TextView.prototype.addHasConceptClass = function()
+        {
+        	this.m_eElement.addClass('hasConcept');
+        }
+        
+        TextView.prototype.removeHasConceptClass = function()
+        {
+        	this.m_eElement.removeClass('hasConcept');
+        }
+        
+        TextView.prototype.addHasConceptFor = function( pConcepts )
+        {
+        	for(var key in pConcepts)
+        	{
+        		var oConcept = pConcepts[key];
+        		
+        		if( this.m_eElement.find('.textfile_content').val().indexOf(oConcept.getConceptName()) >= 0)
+        		{
+        			this.addHasConceptClass();
+        		}
+        	}
+        }
+        
         return TextView;
 });

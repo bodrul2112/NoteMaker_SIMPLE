@@ -12,6 +12,12 @@ define(["thirdparty/jquery",
         			
         		parentFolderPath: "yo",	
         		
+        		concepts : { 
+        			
+        			filePath: "path/concepts",
+        			content: "burrack,furiday,deal,notes,note,yo",
+        		},
+        		
     			subFolders: [
 		    		{
 		    			folderPath: "path/a",
@@ -22,7 +28,7 @@ define(["thirdparty/jquery",
 		    	textViews: [
 		    		{
 		    			filePath: "path/b",
-		    			content: "notes 2, notes 2, notes 2"
+		    			content: "notes 2, notes 2, notes 2 yo"
 		    		}
 		    	]
         			    	
@@ -32,12 +38,12 @@ define(["thirdparty/jquery",
         FolderLoader.prototype.loadFolder = function( sDirectory )
         {
         	
-//        	$.getJSON("http://localhost:6677/notemaker/folder/?folderPath=" + sDirectory, function( mData) {
-//		     
-//        		window.EVENT_HUB.triggerEvent( "loadFolder", mData )
-//        	});
+        	$.getJSON("http://localhost:6677/notemaker/folder/?folderPath=" + sDirectory, function( mData) {
+		     
+        		window.EVENT_HUB.triggerEvent( "loadFolder", mData )
+        	});
         	
-        	window.EVENT_HUB.triggerEvent( "loadFolder", this.m_sTestBlob )
+//        	window.EVENT_HUB.triggerEvent( "loadFolder", this.m_sTestBlob )
         	
         }
         

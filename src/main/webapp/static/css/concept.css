@@ -8,7 +8,7 @@
 	margin-left: 8px
 }
 
-.concept {
+.concept, .conceptNew{
 	display: inline-block;
 	font-family: Calibri;
 	font-style: italic;
@@ -20,6 +20,10 @@
 	border-radius: 7px;
 	cursor: default;
 	border: 2px solid white;
+	
+	margin-left: 1px; 
+	margin-right: 1px;
+	margin-top: 2px; 
 }
 
 .concept.clicked, .concept:hover {
@@ -27,10 +31,31 @@
 }
 
 .concept.clicked {
-	margin-left: 1px; 
-	margin-right: 1px; 
+
 }
 
 .concept .delete {
 	
+}
+
+.conceptNew {
+	width: 100px;
+	height: 17px;
+}
+
+.conceptNew .concept_name {
+	
+	display: inline-block;
+	font-family: Calibri;
+	font-style: italic;
+	font-size: 14px;
+	background-color: #2CC4E0;
+	color: white;
+	font-weight: bold;
+	cursor: default;
+	height: 11px;
+	width: 94px;
+	resize: none;
+	overflow-y: hidden;
+	border: none;
 }
