@@ -1,17 +1,14 @@
 define(["thirdparty/jquery",
     "services/TemplateService",
     "notemaker/loader/FolderLoader",
-    "notemaker/features/concept/Concept",
-    "notemaker/features/concept/ConceptNew",
+    "notemaker/features/concept/Concept"
     ],
 
-    function(jQuery, tpl, FolderLoader, Concept, ConceptNew) {
+    function(jQuery, tpl, FolderLoader, Concept) {
 
         var Concepts = function( sParentSigniture, sFilePath, oFolder )
         {
         	this.m_sParentSigniture = sParentSigniture;
-        	
-        	this.m_oConceptNew = new ConceptNew( sParentSigniture, sFilePath, oFolder );
         	
         	this.m_eElement = tpl.getTemplate(".concepts");
         	
@@ -24,11 +21,6 @@ define(["thirdparty/jquery",
         Concepts.prototype.getElement = function()
         {
         	return this.m_eElement;
-        }
-        
-        Concepts.prototype.getConceptNew = function()
-        {
-        	return this.m_oConceptNew;
         }
         
         Concepts.prototype.getConcepts = function()

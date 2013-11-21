@@ -12,7 +12,7 @@ define(["thirdparty/jquery",
         	
         	this.m_bIsActivated = false;
         	
-        	this.m_sConceptName = sConceptName;
+        	this.m_sConceptName = sConceptName.trim();
         	
         	this.m_sSigniture = "Concept_"+(Math.random()*Math.random()*1000);
         	

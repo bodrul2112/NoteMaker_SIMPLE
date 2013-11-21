@@ -89,10 +89,10 @@ define(["thirdparty/jquery",
         
         Folders.prototype.addConceptToFolder = function( mData )
         {
-        	var oConceptNew = window.STAGE.getStagedObject( mData.signiture );
+        	var oTextView = window.STAGE.getStagedObject( mData.signiture );
         	window.STAGE.unstageObject( mData.signiture );
         	
-        	oConceptNew.addNewConceptToView( mData );
+        	oTextView.addNewConceptToView( mData );
         	
         }
         

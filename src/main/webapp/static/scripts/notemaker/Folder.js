@@ -72,9 +72,7 @@ define(["thirdparty/jquery",
         Folder.prototype.addNewConceptToView = function( oConcept )
         {
         	this.m_oConcepts.addConcept( oConcept );
-        	this.m_oConcepts.getConceptNew().getElement().remove();
         	this.m_oUICleaner.addSingleElement(this.m_oConcepts.getElement(), oConcept);
-        	this.m_oUICleaner.addSingleElement(this.m_oConcepts.getElement(), this.m_oConcepts.getConceptNew());
         }
         
         Folder.prototype.addSubFolderAndRender = function( oSubFolder )
@@ -107,9 +105,7 @@ define(["thirdparty/jquery",
         	this.m_oUICleaner.addSingleElement(this.m_eElement, this.m_oSubFolderNew);
         	
         	this.m_oUICleaner.addSingleElement(this.m_eElement, this.m_oConcepts);
-        	
         	this.m_oUICleaner.addElements(this.m_oConcepts.getElement(), this.m_oConcepts.getConcepts());
-        	this.m_oUICleaner.addSingleElement(this.m_oConcepts.getElement(), this.m_oConcepts.getConceptNew());
         			
         	this.m_eElement.append(this.m_eTextViewsElement);
         	this.m_oUICleaner.addElements( this.m_eTextViewsElement, this.m_pTextViews );
@@ -138,10 +134,12 @@ define(["thirdparty/jquery",
         {
         	this.removeHasConceptClassFromAllTextViews();
         	
+        	var pActivatedConcepts = this.m_oConcepts.getActivatedConcepts();
+        	
         	for(var key in this.m_pTextViews)
         	{
         		var oTextView = this.m_pTextViews[key];
-        		oTextView.addHasConceptFor(this.m_oConcepts.getActivatedConcepts());
+        		oTextView.addHasConceptFor( pActivatedConcepts );
         	}
         }
         
