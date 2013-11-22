@@ -18,7 +18,7 @@ define(["thirdparty/jquery",
         	
         	this.m_eElement = tpl.getTemplate(".concept");
         	
-        	this.m_eElement.text(this.m_sConceptName);
+        	this.m_eElement.find(".concept_label").text(this.m_sConceptName);
         }
         
         Concept.prototype.getElement = function()
@@ -38,7 +38,7 @@ define(["thirdparty/jquery",
         
         Concept.prototype.postProcess = function() 
         {
-        	this.m_eElement.on("click", function() {
+        	this.m_eElement.find(".concept_label").on("click", function() {
         		
 //        		window.EVENT_HUB.triggerEvent("removeFolders", {"after": this.m_sParentSigniture})
 //        		

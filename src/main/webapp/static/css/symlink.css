@@ -30,7 +30,38 @@
 	margin-top: 2px; 
 }
 
+.symlink .symlink_label {
+	display: inline-block;
+	float:left;
+}
+
+.symlink .delete {
+
+	display: inline-block;
+	float: right;
+	
+	width: 17px;
+	height: 15px;
+
+	background-color: #FD1A1A;
+	border-radius: 3px;
+
+	margin-right: -3px;
+	margin-left: 9px;
+	margin-top: 1px;
+	
+	text-indent: 6px;
+	line-height: 13px;
+	
+	color: white;
+}
+
+.symlink .delete:hover {
+	background-color: #2CC4E0;
+}
+
 .symlink.clicked {
-	background-color: #f5a900;
 	border: 2px solid rgb(192,0,0);
+	color: rgb(192,0,0);
+	background-color: white;
 }

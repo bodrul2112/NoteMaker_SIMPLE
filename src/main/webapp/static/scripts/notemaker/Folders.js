@@ -37,6 +37,7 @@ define(["thirdparty/jquery",
         
         Folders.prototype.loadMainFolder = function( sMainFolderName )
         {
+        	window.COUNTER = 1;
         	window.ROOT_FOLDER = this;
         	window.EVENT_HUB.registerEvent("loadFolder", this.m_sSigniture, this.onEvent.bind(this));
         	window.EVENT_HUB.registerEvent("removeFolders", this.m_sSigniture, this.onEvent.bind(this));
@@ -74,6 +75,14 @@ define(["thirdparty/jquery",
         	}
         	else if( sEventName == "loadFolder")
         	{
+        		
+        		if(mData.piped)
+        		{
+        			var pipedFolderName = mData.piped;
+        			var oFolder = this.m_pFolders[this.m_pFolders.length-1];
+        			oFolder.selectFolderWithName( pipedFolderName );
+        		}
+        		
         		var oFolder = this.m_oFolderFactory.createFolder(null, mData);
         		this.m_pFolders.push( oFolder );
         		

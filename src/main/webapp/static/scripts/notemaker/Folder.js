@@ -11,7 +11,7 @@ define(["thirdparty/jquery",
 
         var Folder = function( oParentFolder, sFolderPath )
         {
-        	this.m_sSigniture = "Folder_"+(new Date().getTime());
+        	this.m_sSigniture = "Folder_"+(new Date().getTime()) + ( ++window.COUNTER );
         	this.m_sFolderPath = sFolderPath;
         	
         	this.m_oUICleaner = new UICleaner();
@@ -147,6 +147,20 @@ define(["thirdparty/jquery",
         		
         		
         	}.bind(this));
+        }
+        
+        Folder.prototype.selectFolderWithName = function( sName ) 
+        {
+        	this.removeClickedClassFromAllSubfolders();
+        	
+        	for(var key in this.m_pSubFolders)
+        	{
+        		var oSubFolder = this.m_pSubFolders[key];
+        		if(oSubFolder.getFolderName() == sName)
+        		{
+        			oSubFolder.addClickedClass();
+        		}
+        	}
         }
         
         Folder.prototype.removeClickedClassFromAllSubfolders = function() 

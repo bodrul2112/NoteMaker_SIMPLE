@@ -30,6 +30,36 @@
 	margin-top: 2px; 
 }
 
+
+.concept .concept_label {
+	
+	display: inline-block;
+	float:left;
+}
+
+.concept .delete {
+
+	display: inline-block;
+	float: right;
+	
+	width: 17px;
+	height: 15px;
+
+	background-color: #239CA2;
+	border-radius: 3px;
+
+	margin-right: -3px;
+	margin-left: 9px;
+	margin-top: 1px;
+	
+	text-indent: 6px;
+	line-height: 13px;
+}
+
+.concept .delete:hover {
+	background-color: rgb(192,0,0);
+}
+
 .concept.clicked {
 	border: 2px solid #239CA2;
 }
@@ -40,10 +70,6 @@
 
 .concept.clicked {
 
-}
-
-.concept .delete {
-	
 }
 
 .conceptNew {

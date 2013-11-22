@@ -75,6 +75,10 @@ define(["thirdparty/jquery",
         		var sDirectory = window.FOLDER_PIPE.pop();
         		$.getJSON("http://localhost:6677/notemaker/folder/?folderPath=" + sDirectory, function( mData ) {
           		     
+        			var folderName = mData.parentFolderPath.split("/").pop();
+        			
+        			mData["piped"] = folderName;
+        			
             		window.EVENT_HUB.triggerEvent( "loadFolder", mData );
             		this.loadFolderFromPipe();
             	}.bind(this));

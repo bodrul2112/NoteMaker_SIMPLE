@@ -146,6 +146,9 @@ public class FileCrawlerWeb extends BaseJsonResource {
 		
 		File newFolder = new File(postData.get("folderPath") +"/"+ postData.get("folderName"));
 		
+		
+		System.out.println("received a mkdir request :: " + newFolder.getAbsolutePath());
+		
 		boolean createdFolder = newFolder.mkdir();
 		
 		postData.put("folderPath", newFolder.getAbsolutePath());

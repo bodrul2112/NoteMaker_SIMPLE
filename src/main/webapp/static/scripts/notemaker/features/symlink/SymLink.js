@@ -20,7 +20,7 @@ define(["thirdparty/jquery",
         	
         	this.m_eElement = tpl.getTemplate(".symlink");
         	
-        	this.m_eElement.text(this.m_sSymLinkName);
+        	this.m_eElement.find(".symlink_label").text(this.m_sSymLinkName);
         }
         
         SymLink.prototype.getElement = function()
@@ -45,7 +45,7 @@ define(["thirdparty/jquery",
         
         SymLink.prototype.postProcess = function() 
         {
-        	this.m_eElement.on("click", function() {
+        	this.m_eElement.find('.symlink_label').on("click", function() {
         		
         		this.activate();
         		
