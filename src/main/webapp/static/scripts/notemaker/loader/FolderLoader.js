@@ -43,13 +43,45 @@ define(["thirdparty/jquery",
         FolderLoader.prototype.loadFolder = function( sDirectory )
         {
         	
-        	$.getJSON("http://localhost:6677/notemaker/folder/?folderPath=" + sDirectory, function( mData) {
+        	$.getJSON("http://localhost:6677/notemaker/folder/?folderPath=" + sDirectory, function( mData ) {
 		     
         		window.EVENT_HUB.triggerEvent( "loadFolder", mData )
         	});
         	
 //        	window.EVENT_HUB.triggerEvent( "loadFolder", this.m_sTestBlob )
         	
+        }
+        
+        FolderLoader.prototype.loadFolders = function( pFolderPaths )
+        {
+        	if(!window.FOLDER_PIPE)
+        	{
+        		window.FOLDER_PIPE = pFolderPaths.reverse();
+        		this.loadFolderFromPipe();
+        	}
+        	else
+        	{
+        		alert("clicking too fast wait for current link to load all folders")
+        	}
+        	
+//        	window.EVENT_HUB.triggerEvent( "loadFolder", this.m_sTestBlob )
+        	
+        }
+        
+        FolderLoader.prototype.loadFolderFromPipe = function()
+        {
+        	if(window.FOLDER_PIPE && window.FOLDER_PIPE.length>0)
+        	{
+        		var sDirectory = window.FOLDER_PIPE.pop();
+        		$.getJSON("http://localhost:6677/notemaker/folder/?folderPath=" + sDirectory, function( mData ) {
+          		     
+            		window.EVENT_HUB.triggerEvent( "loadFolder", mData );
+            		this.loadFolderFromPipe();
+            	}.bind(this));
+        	}
+        	else{
+        		window.FOLDER_PIPE = null;
+        	}
         }
         
         return FolderLoader;

@@ -30,7 +30,6 @@ define(["thirdparty/jquery",
         	this.m_eElement.on("click", function() {
         		
         		window.EVENT_HUB.triggerEvent("removeFolders", {"after": this.m_sParentSigniture})
-        		
         		this.m_oFolderLoader.loadFolder(this.m_sFolderPath);
         		
         		this.m_oParentFolder.removeClickedClassFromAllSubfolders();

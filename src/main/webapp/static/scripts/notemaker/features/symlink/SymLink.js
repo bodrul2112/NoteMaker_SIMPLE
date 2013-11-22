@@ -9,8 +9,9 @@ define(["thirdparty/jquery",
         {
         	this.m_sParentSigniture = sParentSigniture;
         	this.m_oFolder = oFolder;
-        	
         	this.m_bIsActivated = false;
+        	
+        	this.m_oFolderLoader = new FolderLoader();
         	
         	this.m_sSymLinkName = sSymLinkName.trim();
         	this.m_sSymLinkPath = sSymLinkPath.trim();
@@ -46,15 +47,28 @@ define(["thirdparty/jquery",
         {
         	this.m_eElement.on("click", function() {
         		
-//        		window.EVENT_HUB.triggerEvent("removeFolders", {"after": this.m_sParentSigniture})
-//        		
-//        		this.m_oFolderLoader.loadFolder(this.m_sFolderPath);
-//        		
-//        		this.m_oParentFolder.removeClickedClassFromAllSubfolders();
-        		
         		this.activate();
         		
-        		console.log("im a clicked class");
+        		var sRootFolderPath = this.m_oFolder.getFolderPath();
+        		
+        		var pLinkParts = this.m_sSymLinkPath.split("/");
+        		var pFolderPaths = [];
+        		var pPathInc="";
+        		for(var key in pLinkParts)
+        		{
+        			var sPath = pLinkParts[key];
+        			if(sPath !== "")
+        			{
+        				pPathInc+="/"+sPath;
+        				pFolderPaths.push( sRootFolderPath + pPathInc);
+        			}
+        		}
+        		
+        		console.log("im a clicked class", this.m_oFolder.getFolderPath(), this.m_sSymLinkPath, pFolderPaths);
+        		
+        		window.EVENT_HUB.triggerEvent("removeFolders", {"after": this.m_sParentSigniture})
+        		
+        		this.m_oFolderLoader.loadFolders(pFolderPaths);
         		
         		
         	}.bind(this));
