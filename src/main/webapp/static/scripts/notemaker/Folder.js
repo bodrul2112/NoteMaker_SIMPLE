@@ -85,6 +85,11 @@ define(["thirdparty/jquery",
         	this.m_oConcepts.addConcept( oConcept );
         }
         
+        Folder.prototype.removeConcept = function( oConcept )
+        {
+        	this.m_oConcepts.removeConcept( oConcept );
+        }
+        
         Folder.prototype.addNewConceptToView = function( oConcept )
         {
         	this.m_oConcepts.addConcept( oConcept );

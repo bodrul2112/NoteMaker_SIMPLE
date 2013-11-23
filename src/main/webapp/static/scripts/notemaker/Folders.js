@@ -67,6 +67,10 @@ define(["thirdparty/jquery",
         		{
         			this.addSymLinkToFolder( mData );
         		}
+        		else if(mData.type && mData.type == "deletion")
+        		{
+        			// do nothig
+        		}
         		else
         		{
         			this.resetTextView( mData );
