@@ -72,6 +72,13 @@ define(["thirdparty/jquery",
         		
         		
         	}.bind(this));
+        	
+        	this.m_eElement.find(".delete").on("click", function() {
+
+        		this.getElement().remove();
+        		this.m_oFolder.getSymLinks().removeSymLink( this );
+        		
+        	}.bind(this));
         }
         
         SymLink.prototype.activate = function()

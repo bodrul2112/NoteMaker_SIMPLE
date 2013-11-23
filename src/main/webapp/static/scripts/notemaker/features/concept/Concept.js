@@ -54,7 +54,6 @@ define(["thirdparty/jquery",
         	}.bind(this));
         	
         	this.m_eElement.find(".delete").on("click", function() {
-        		
         		console.log("sup");
         		this.getElement().remove();
         		this.m_oFolder.removeConcept( this );
