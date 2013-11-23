@@ -33,6 +33,8 @@ define(["thirdparty/jquery",
         	this.m_eElement = tpl.getTemplate(".folder");
         	this.m_eSubFoldersElement = tpl.getTemplate(".subfolders");
         	this.m_eTextViewsElement = tpl.getTemplate(".textviews");
+        	
+        	this.m_nScrollTop;
         }
         
         Folder.prototype.getElement = function()
@@ -58,6 +60,16 @@ define(["thirdparty/jquery",
         Folder.prototype.getSigniture = function()
         {
         	return this.m_sSigniture;
+        }
+        
+        Folder.prototype.setScrollTop = function( nScrollPos )
+        {
+        	this.m_eElement[0].scrollTop = nScrollPos;  
+        }
+        
+        Folder.prototype.resetScrollTop = function()
+        {
+        	 this.m_eElement[0].scrollTop = this.m_eElement[0].scrollHeight; 
         }
         
         Folder.prototype.addSubFolder = function( oFolder )

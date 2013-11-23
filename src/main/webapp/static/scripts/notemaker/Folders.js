@@ -85,12 +85,51 @@ define(["thirdparty/jquery",
         			var pipedFolderName = mData.piped;
         			var oFolder = this.m_pFolders[this.m_pFolders.length-1];
         			oFolder.selectFolderWithName( pipedFolderName );
+        			
         		}
         		
         		var oFolder = this.m_oFolderFactory.createFolder(null, mData);
         		this.m_pFolders.push( oFolder );
         		
         		oFolder.render( this.m_eElement );
+        		
+        		if(mData.piped)
+        		{
+        			if(mData.pipeDone)
+        			{
+        				this.adjustScrollLeft( 600 );
+        			}
+        		}
+        		else
+        		{
+        			this.adjustScrollLeft( 400 );
+        		}
+        	}
+        }
+        
+        Folders.prototype.adjustScrollLeft = function( nScrollSpeed ) 
+        {
+        	var nTotalWidths = 0;
+        	for(var key in this.m_pFolders)
+        	{
+        		var oFolder = this.m_pFolders[key];
+        		var nWidth = oFolder.getElement().width();
+        		nTotalWidths += nWidth;
+        	}
+        	
+        	
+        	var nSpaceLeft = $('body').width() - nTotalWidths;
+        	if(nSpaceLeft >0 )
+        	{
+        		$('body').animate({scrollLeft: 0}, nScrollSpeed, 'easeOutExpo', function(){} );
+        	}
+        	else
+        	{
+//        		$('body').scrollLeft(Math.abs(nSpaceLeft)+150);
+//        		$('body').scrollLeft();
+        		
+        		var nScrollPos = Math.abs(nSpaceLeft)+150;
+        		$('body').animate({scrollLeft: nScrollPos}, nScrollSpeed, 'easeOutExpo', function(){} );
         	}
         }
         

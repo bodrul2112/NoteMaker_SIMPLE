@@ -104,7 +104,11 @@ define(["thirdparty/jquery",
         		var oConcept = this.m_mConcepts[key];
         		if(oConcept.isActivated())
         		{
-        			pActivatedConcepts.push(oConcept)
+        			var pConceptParts = oConcept.getConceptName().split(" ");
+        			for(var pkey in pConceptParts)
+        			{
+        				pActivatedConcepts.push(pConceptParts[pkey].toLowerCase());
+        			}
         		}
         	}
         	

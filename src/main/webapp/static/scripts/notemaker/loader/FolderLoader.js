@@ -61,7 +61,7 @@ define(["thirdparty/jquery",
         	}
         	else
         	{
-        		alert("clicking too fast wait for current link to load all folders")
+        		console.log("clicking too fast wait for current link to load all folders")
         	}
         	
 //        	window.EVENT_HUB.triggerEvent( "loadFolder", this.m_sTestBlob )
@@ -78,6 +78,8 @@ define(["thirdparty/jquery",
         			var folderName = mData.parentFolderPath.split("/").pop();
         			
         			mData["piped"] = folderName;
+        			
+        			mData["pipeDone"] = (window.FOLDER_PIPE.length<=0);
         			
             		window.EVENT_HUB.triggerEvent( "loadFolder", mData );
             		this.loadFolderFromPipe();

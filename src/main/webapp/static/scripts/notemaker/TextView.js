@@ -6,9 +6,11 @@ define(["thirdparty/jquery",
 
     function(jQuery, tpl, FolderLoader, FolderPersistance) {
 
-        var TextView = function( sFilePath, sContent )
+        var TextView = function( sFilePath, sContent, oParentFolder )
         {
         	this.m_oFolderPersistance = new FolderPersistance();
+        	
+        	this.m_oParentFolder = oParentFolder;
         	
         	this.m_sSigniture = "TextView_"+ (new Date().getTime());
         	
@@ -22,11 +24,17 @@ define(["thirdparty/jquery",
         
         TextView.prototype.postProcess = function() 
         {
+        	
         	this.m_eElement.on( 'keyup', 'textarea', function (e){
         		
-			    $(this).css('height', 'auto' );
-			    $(this).height( this.scrollHeight );
-			});
+        		var eTextFile = this.m_eElement.find('.textfile_content');
+        		eTextFile.css('height', 'auto' );
+        		eTextFile.height( eTextFile[0].scrollHeight );
+        		
+        		var nScrollPos = eTextFile.position().top + eTextFile.height();
+			    this.m_oParentFolder.setScrollTop( nScrollPos );
+        		
+			}.bind(this));
         	
         	this.m_eElement.on( 'focusin', function(e){
         		this.addEditingClass();
@@ -42,8 +50,6 @@ define(["thirdparty/jquery",
         		{
         			sContent="-";
         		}
-        		
-        		console.log(this.sFilePath, sContent);
         		
         		this.m_oFolderPersistance.saveTextView(this.sFilePath, this.m_sSigniture, sContent);
         		
@@ -88,11 +94,13 @@ define(["thirdparty/jquery",
         
         TextView.prototype.addHasConceptFor = function( pConcepts )
         {
+        	
+        	var sContentLowerCased = this.m_eElement.find('.textfile_content').val().toLowerCase();
         	for(var key in pConcepts)
         	{
-        		var oConcept = pConcepts[key];
+        		var sConcept = pConcepts[key];
         		
-        		if( this.m_eElement.find('.textfile_content').val().indexOf(oConcept.getConceptName()) >= 0)
+        		if( sContentLowerCased.indexOf(sConcept) >= 0)
         		{
         			this.addHasConceptClass();
         		}

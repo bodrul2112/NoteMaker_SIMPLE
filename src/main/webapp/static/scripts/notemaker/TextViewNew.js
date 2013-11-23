@@ -33,11 +33,15 @@ define(["thirdparty/jquery",
         {
         	this.m_eElement.on( 'keyup', 'textarea', function (e){
         		
-			    $(this).css('height', 'auto' );
-			    $(this).height( this.scrollHeight );
-			});
+        		var eTextFile = this.m_eElement.find('.textfile_content');
+        		eTextFile.css('height', 'auto' );
+        		eTextFile.height( eTextFile[0].scrollHeight );
+        		
+			    this.m_oParentFolder.resetScrollTop();
+			}.bind(this));
         	
         	this.m_eElement.on( 'focusin', function(e){
+        		
         		this.addEditingClass();
         	}.bind(this));
         	
@@ -119,10 +123,9 @@ define(["thirdparty/jquery",
         
         TextViewNew.prototype.removeEditingClass = function( mData )
         {
-        	
         	var filePath = mData.filePath;
         	var content = this.m_eElement.find('.textfile_content').val();
-        	var oTextView = new TextView(filePath, content);
+        	var oTextView = new TextView(filePath, content, this.m_oParentFolder );
         	
         	this.m_oParentFolder.addTextViewAndRender( oTextView );
         	

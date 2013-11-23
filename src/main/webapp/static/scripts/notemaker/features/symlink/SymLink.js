@@ -64,8 +64,6 @@ define(["thirdparty/jquery",
         			}
         		}
         		
-        		console.log("im a clicked class", this.m_oFolder.getFolderPath(), this.m_sSymLinkPath, pFolderPaths);
-        		
         		window.EVENT_HUB.triggerEvent("removeFolders", {"after": this.m_sParentSigniture})
         		
         		this.m_oFolderLoader.loadFolders(pFolderPaths);
