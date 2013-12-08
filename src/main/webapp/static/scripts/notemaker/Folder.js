@@ -62,6 +62,11 @@ define(["thirdparty/jquery",
         	return this.m_sSigniture;
         }
         
+        Folder.prototype.getScrollTop = function()
+        {
+        	return this.m_nScrollTop;  
+        }
+        
         Folder.prototype.setScrollTop = function( nScrollPos )
         {
         	this.m_eElement[0].scrollTop = nScrollPos;  
@@ -69,7 +74,12 @@ define(["thirdparty/jquery",
         
         Folder.prototype.resetScrollTop = function()
         {
-        	 this.m_eElement[0].scrollTop = this.m_eElement[0].scrollHeight; 
+        	this.m_eElement[0].scrollTop = this.m_eElement[0].scrollHeight; 
+        }
+        
+        Folder.prototype.resetScrollToLock = function()
+        {
+        	this.m_eElement[0].scrollTop = this.m_nScrollTop;
         }
         
         Folder.prototype.addSubFolder = function( oFolder )
@@ -164,6 +174,13 @@ define(["thirdparty/jquery",
         		
         		
         	}.bind(this));
+        	
+        	this.m_eElement.on("scroll", function() {
+        		
+        		this.m_nScrollTop = this.m_eElement[0].scrollTop;
+        		
+        	}.bind(this));
+        	
         }
         
         Folder.prototype.selectFolderWithName = function( sName ) 

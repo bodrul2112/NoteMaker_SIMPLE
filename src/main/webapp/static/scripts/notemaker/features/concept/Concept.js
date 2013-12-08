@@ -48,13 +48,10 @@ define(["thirdparty/jquery",
         		
         		this.toggleActivated();
         		
-        		console.log("im a clicked class");
-        		
-        		
         	}.bind(this));
         	
         	this.m_eElement.find(".delete").on("click", function() {
-        		console.log("sup");
+        		
         		this.getElement().remove();
         		this.m_oFolder.removeConcept( this );
         		

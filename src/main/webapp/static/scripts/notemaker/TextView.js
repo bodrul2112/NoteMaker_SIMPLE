@@ -27,16 +27,32 @@ define(["thirdparty/jquery",
         	
         	this.m_eElement.on( 'keyup', 'textarea', function (e){
         		
+        		var nOriginalScrollPos = this.m_oParentFolder.getScrollTop();
+        		
         		var eTextFile = this.m_eElement.find('.textfile_content');
         		eTextFile.css('height', 'auto' );
         		eTextFile.height( eTextFile[0].scrollHeight );
         		
+        		/*
+        		
         		var nScrollPos = eTextFile.position().top + eTextFile.height();
-			    this.m_oParentFolder.setScrollTop( nScrollPos );
+        		
+        		if(nScrollPos < $('body').height())
+        		{
+        			this.m_oParentFolder.setScrollTop( 0 );
+        		}
+        		else
+        		{
+        			this.m_oParentFolder.setScrollTop( nScrollPos );
+        		}
+        		
+        		*/
+        		
+        		this.m_oParentFolder.setScrollTop( nOriginalScrollPos );
         		
 			}.bind(this));
         	
-        	this.m_eElement.on( 'focusin', function(e){
+        	this.m_eElement.on( 'focusin', function(e){	
         		this.addEditingClass();
         	}.bind(this));
         	
@@ -69,7 +85,7 @@ define(["thirdparty/jquery",
         
         TextView.prototype._clicked = function()
         {
-        	console.log("ahoy, gotta load some stuff yo");
+
         }
         
         TextView.prototype.addEditingClass = function()
