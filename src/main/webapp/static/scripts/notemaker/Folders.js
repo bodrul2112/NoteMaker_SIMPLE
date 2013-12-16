@@ -98,6 +98,12 @@ define(["thirdparty/jquery",
         			if(mData.pipeDone)
         			{
         				this.adjustScrollLeft( 600 );
+        				
+        				if(window.LOADING_BOARD_VIEW)
+        				{
+        					window.LOADING_BOARD_VIEW = false;
+        					window.LOADING_BOARD_VIEW_FOLDER.setAllSubFoldersAsClicked();
+        				}
         			}
         		}
         		else

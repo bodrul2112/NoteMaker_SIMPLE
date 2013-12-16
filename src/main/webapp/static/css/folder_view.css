@@ -26,6 +26,10 @@
 	overflow-y:auto;
 }
 
+.folder.boardItem {
+	border-right: 1px dashed rgb(192,0,0);
+}
+
 .custom_scrollbar::-webkit-scrollbar {
 	width: 4px;
 	height: 10px;

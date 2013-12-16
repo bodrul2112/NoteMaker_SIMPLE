@@ -4,10 +4,11 @@ define(["thirdparty/jquery",
     "notemaker/loader/FolderLoader",
     "notemaker/SubFolderNew",
     "notemaker/TextViewNew",
-    "notemaker/features/concept/Concepts"
+    "notemaker/features/concept/Concepts",
+    "notemaker/Descriptor",
     ],
 
-    function(jQuery, tpl, UICleaner, FolderLoader, SubFolderNew, TextViewNew, Concepts) {
+    function(jQuery, tpl, UICleaner, FolderLoader, SubFolderNew, TextViewNew, Concepts, Descriptor) {
 
         var Folder = function( oParentFolder, sFolderPath )
         {
@@ -27,6 +28,7 @@ define(["thirdparty/jquery",
         	this.m_oSymLinks;
         	
         	this.m_oTextViewNew = new TextViewNew(this.m_sFolderPath, this);
+        	this.m_oDescriptor;
         	
         	this.m_oLoadedSubFolder = null;
         	
@@ -35,6 +37,12 @@ define(["thirdparty/jquery",
         	this.m_eTextViewsElement = tpl.getTemplate(".textviews");
         	
         	this.m_nScrollTop;
+        	
+        	if(window.LOADING_BOARD_VIEW)
+        	{
+        		this.m_eElement.addClass("boardItem");
+        	}
+        	
         }
         
         Folder.prototype.getElement = function()
@@ -42,9 +50,20 @@ define(["thirdparty/jquery",
         	return this.m_eElement;
         }
         
+        Folder.prototype.getSubFolders = function()
+        {
+        	return this.m_pSubFolders;
+        }
+        
         Folder.prototype.getFolderPath = function()
         {
         	return this.m_sFolderPath;
+        }
+        
+        Folder.prototype._parseFolderName = function() 
+        {
+        	var pPathParts = this.m_sFolderPath.split("\\");
+        	return pPathParts[pPathParts.length-1];
         }
         
         Folder.prototype.getConcepts = function()
@@ -151,12 +170,26 @@ define(["thirdparty/jquery",
         	this.m_oUICleaner.removeSingleElement(this.m_oTextViewNew);
         	
         	this.m_eElement.append(this.m_eSubFoldersElement)
-        	this.m_oUICleaner.addElements( this.m_eSubFoldersElement, this.m_pSubFolders );
-        	this.m_oUICleaner.addSingleElement(this.m_eElement, this.m_oSubFolderNew);
         	
-        	/** Symlinks **/
-        	this.m_oUICleaner.addSingleElement(this.m_eElement, this.m_oSymLinks);
-        	this.m_oUICleaner.addElements(this.m_oSymLinks.getElement(), this.m_oSymLinks.getSymLinks());
+        	if(window.LOADING_BOARD_VIEW)
+        	{
+        		if(this.m_oDescriptor)
+        		{
+        			this.m_oUICleaner.removeSingleElement(this.m_oDescriptor);
+        		}
+        		this.m_oDescriptor = new Descriptor(this);
+        		this.m_oUICleaner.addSingleElement(this.m_eSubFoldersElement, this.m_oDescriptor);
+        	}
+        	else
+        	{
+            	/** Subfolders **/
+            	this.m_oUICleaner.addElements( this.m_eSubFoldersElement, this.m_pSubFolders );
+            	this.m_oUICleaner.addSingleElement(this.m_eElement, this.m_oSubFolderNew);
+            	
+            	/** Symlinks **/
+            	this.m_oUICleaner.addSingleElement(this.m_eElement, this.m_oSymLinks);
+            	this.m_oUICleaner.addElements(this.m_oSymLinks.getElement(), this.m_oSymLinks.getSymLinks());
+        	}
         	
         	/** Concepts **/
         	this.m_oUICleaner.addSingleElement(this.m_eElement, this.m_oConcepts);
@@ -236,6 +269,29 @@ define(["thirdparty/jquery",
         	{
         		var oSymLink = pSymLinks[key];
         		oSymLink.removeClickedClass();
+        	}
+        }
+        
+        Folder.prototype.loadAsBoardMode = function() 
+        {
+        	var pFolderPaths = [];
+        	for(var key in this.m_pSubFolders)
+        	{
+        		var oSubFolder = this.m_pSubFolders[key];
+        		pFolderPaths.push( oSubFolder.getFolderPath() );
+        	}
+        	
+        	window.LOADING_BOARD_VIEW = true;
+        	window.LOADING_BOARD_VIEW_FOLDER = this;
+        	this.m_oFolderLoader.loadFolders( pFolderPaths );
+        }
+        
+        Folder.prototype.setAllSubFoldersAsClicked = function() 
+        {
+        	for(var key in this.m_pSubFolders)
+        	{
+        		var oSubFolder = this.m_pSubFolders[key];
+        		oSubFolder.addClickedClass();
         	}
         }
         

@@ -8,13 +8,12 @@ define(["thirdparty/jquery",
 		//TODO: ended up passing in the parent object reference anyway, clean this up later
         var SubFolderNew = function( sFolderPath, sParentSigniture, oParentFolder )
         {
+        	this.m_oParentFolder = oParentFolder;
         	this.m_sFolderPath = sFolderPath;
         	this.m_sParentSigniture = sParentSigniture;
         	this.m_eElement = tpl.getTemplate(".subfolder.new");
         	this.m_eTextArea = this.m_eElement.find(".newfolder_name");
         	this.m_oFolderPersistance = new FolderPersistance();
-        	
-        	//this.m_eElement.text(this.m_sFolderName);
         }
         
         SubFolderNew.prototype.getElement = function()
@@ -37,6 +36,15 @@ define(["thirdparty/jquery",
         			this.m_oFolderPersistance.createFolder(this.m_sFolderPath, this.m_sParentSigniture, sFolderName);
             		this.m_eTextArea.val("");
         		}
+        		
+        		console.log("naye")
+        		
+        	}.bind(this));
+        	
+        	this.m_eElement.find('.boardModeBtn').on("click", function() {
+        		
+        		window.EVENT_HUB.triggerEvent("removeFolders", {"after": this.m_sParentSigniture}); 
+        		this.m_oParentFolder.loadAsBoardMode();
         		
         	}.bind(this));
         }

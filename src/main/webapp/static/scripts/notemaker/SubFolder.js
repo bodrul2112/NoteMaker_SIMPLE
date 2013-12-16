@@ -16,13 +16,12 @@ define(["thirdparty/jquery",
         	this.m_sParentSigniture = sParentSigniture;
         	
         	this.m_eElement = tpl.getTemplate(".subfolder.directory");
-        	
         	this.m_eElement.text(this.m_sFolderName);
         }
         
         SubFolder.prototype.getElement = function()
         {
-        	return this.m_eElement;
+        	return this.m_eElement; 
         }
         
         SubFolder.prototype.getFolderName = function()
@@ -30,29 +29,38 @@ define(["thirdparty/jquery",
         	return this.m_sFolderName;
         }
         
+        SubFolder.prototype.getFolderPath = function()
+        {
+        	return this.m_sFolderPath;
+        }
+        
         SubFolder.prototype.postProcess = function() 
         {
         	this.m_eElement.on("click", function() {
         		
         		console.log("subfolder",this.m_sFolderPath, this.m_sFolderName)
-        		
         		window.EVENT_HUB.triggerEvent("removeFolders", {"after": this.m_sParentSigniture})
-        		this.m_oFolderLoader.loadFolder(this.m_sFolderPath);
         		
-        		this.m_oParentFolder.removeClickedClassFromAllSubfolders();
-        		this.addClickedClass();
+        		this.loadFolder();
         		
         	}.bind(this));
         }
         
+        SubFolder.prototype.loadFolder = function()
+        {
+    		this.m_oFolderLoader.loadFolder(this.m_sFolderPath);
+    		this.m_oParentFolder.removeClickedClassFromAllSubfolders();
+    		this.addClickedClass();
+        }
+        
         SubFolder.prototype.addClickedClass = function()
         {
-        	this.m_eElement.addClass('clicked')
+        	this.m_eElement.addClass('clicked');
         }
         
         SubFolder.prototype.removeClickedClass = function()
         {
-        	this.m_eElement.removeClass('clicked')
+        	this.m_eElement.removeClass('clicked');
         }
         
         return SubFolder;
