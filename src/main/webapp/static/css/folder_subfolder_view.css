@@ -10,9 +10,9 @@
 	-webkit-transition: all 50ms linear;
 	
 	width: 90%;
-	height: 21px;
+	height: 19px;
 	float: left;
-	margin-top: 4px;
+	margin-top: 2px;
 	margin-left: 2%;
 	text-indent: 6px;
 	
@@ -21,6 +21,7 @@
 	font-family: Calibri;
 	font-weight: bold;
 	font-style: italic;
+	font-size: 14px;
 	color: rgb(192,0,0);
 	background-color: rgb(243,220,220);
 }
@@ -55,7 +56,7 @@
 	color: rgb(192,0,0);
 	background-color: rgb(243,220,220);
 	border:none;
-	font-size: 16px;
+	font-size: 14px;
 	
 	float: left;
 	margin-left: 3px;
@@ -118,10 +119,12 @@
  }  		
 
  .descriptor .name {
- 
+ 	padding-left: 6px;
+ 	height: 19px;
  }  		
 
  .descriptor .contents {
  	background-color: #9B0000;
+ 	padding-left: 6px;
  }  		
 
