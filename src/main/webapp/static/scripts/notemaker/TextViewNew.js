@@ -113,7 +113,6 @@ define(["thirdparty/jquery",
         
         TextViewNew.prototype._clicked = function()
         {
-        	console.log("ahoy, gotta load some stuff yo");
         }
         
         TextViewNew.prototype.addEditingClass = function()

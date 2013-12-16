@@ -37,8 +37,6 @@ define(["thirdparty/jquery",
             		this.m_eTextArea.val("");
         		}
         		
-        		console.log("naye")
-        		
         	}.bind(this));
         	
         	this.m_eElement.find('.boardModeBtn').on("click", function() {
