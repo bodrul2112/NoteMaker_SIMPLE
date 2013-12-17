@@ -22,6 +22,11 @@ define(["thirdparty/jquery",
         	this.clear();
         }
         
+        BoardView.prototype.isCleared = function()
+        {
+        	return this.m_bCleared;
+        }
+        
         BoardView.prototype.getElement = function()
         {
         	return this.m_eCurrentTextViewsElement;

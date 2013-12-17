@@ -131,9 +131,9 @@ define(["thirdparty/jquery",
         		}
         	}
         	
-        	if(nWidth)
+        	if(nWidth && window.LOADING_BOARD_VIEW)
         	{
-        		var nBoardFolders = window.BOARD_VIEW.getNumberOfFolders()-1;
+        		var nBoardFolders = window.BOARD_VIEW.getNumberOfFolders();
         		nTotalWidths += (nBoardFolders*nWidth);
         	}
         	
