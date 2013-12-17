@@ -32,6 +32,11 @@ define(["thirdparty/jquery",
         	return this.m_pCurrentFolderElements[this.m_pCurrentFolderElements.length-1];
         }
         
+        BoardView.prototype.getNumberOfFolders = function()
+        {
+        	return this.m_pCurrentFolderElements.length;
+        }
+        
         BoardView.prototype.getLatestElement = function()
         {
         	return this.m_pCurrentTextViews[this.m_pCurrentTextViews.length-1];

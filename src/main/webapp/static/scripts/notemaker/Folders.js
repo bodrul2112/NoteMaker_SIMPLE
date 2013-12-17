@@ -119,17 +119,23 @@ define(["thirdparty/jquery",
         Folders.prototype.adjustScrollLeft = function( nScrollSpeed ) 
         {
         	var nTotalWidths = 0;
+        	var nWidth;
         	for(var key in this.m_pFolders)
         	{
         		var oFolder = this.m_pFolders[key];
         		
         		if(!oFolder.isBoardLoaded())
         		{
-        			var nWidth = oFolder.getElement().width();
+        			nWidth = oFolder.getElement().width();
         			nTotalWidths += nWidth;
         		}
         	}
         	
+        	if(nWidth)
+        	{
+        		var nBoardFolders = window.BOARD_VIEW.getNumberOfFolders()-1;
+        		nTotalWidths += (nBoardFolders*nWidth);
+        	}
         	
         	var nSpaceLeft = $('body').width() - nTotalWidths;
         	if(nSpaceLeft >0 )
