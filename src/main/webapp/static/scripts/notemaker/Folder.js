@@ -37,12 +37,18 @@ define(["thirdparty/jquery",
         	this.m_eTextViewsElement = tpl.getTemplate(".textviews");
         	
         	this.m_nScrollTop;
+        	this.m_bBoardLoaded = false;
         	
         	if(window.LOADING_BOARD_VIEW)
         	{
+        		this.m_bBoardLoaded = true;
         		this.m_eElement.addClass("boardItem");
         	}
-        	
+        }
+        
+        Folder.prototype.isBoardLoaded = function()
+        {
+        	return this.m_bBoardLoaded;
         }
         
         Folder.prototype.getElement = function()
@@ -53,6 +59,18 @@ define(["thirdparty/jquery",
         Folder.prototype.getSubFolders = function()
         {
         	return this.m_pSubFolders;
+        }
+        
+        Folder.prototype.hasSubFolders = function()
+        {
+        	if(this.m_pSubFolders && this.m_pSubFolders.length>0)
+        	{
+        		return true;
+        	}
+        	else
+        	{
+        		return false;
+        	}
         }
         
         Folder.prototype.getFolderPath = function()
@@ -157,7 +175,10 @@ define(["thirdparty/jquery",
         
         Folder.prototype.render = function( eContainerElement )
         {
-        	this.m_oUICleaner.addSingleElement( eContainerElement, this);
+        	if(!window.LOADING_BOARD_VIEW)
+        	{
+        		this.m_oUICleaner.addSingleElement( eContainerElement, this);
+        	}
         	
         	this.m_oUICleaner.removeElements( this.m_pSubFolders );
         	this.m_oUICleaner.removeElements( this.m_pTextViews );
@@ -168,6 +189,12 @@ define(["thirdparty/jquery",
         	this.m_oUICleaner.removeSingleElement(this.m_oConcepts);
         	this.m_eTextViewsElement.remove();
         	this.m_oUICleaner.removeSingleElement(this.m_oTextViewNew);
+        	
+        	if(window.LOADING_BOARD_VIEW)
+        	{
+        		window.BOARD_VIEW.initialFolderCheck( eContainerElement );
+        		this.m_eElement = window.BOARD_VIEW.getLatestFolderElement().getElement();
+        	}
         	
         	this.m_eElement.append(this.m_eSubFoldersElement)
         	
@@ -194,11 +221,24 @@ define(["thirdparty/jquery",
         	/** Concepts **/
         	this.m_oUICleaner.addSingleElement(this.m_eElement, this.m_oConcepts);
         	this.m_oUICleaner.addElements(this.m_oConcepts.getElement(), this.m_oConcepts.getConcepts());
-        			
-        	this.m_eElement.append(this.m_eTextViewsElement);
-        	this.m_oUICleaner.addElements( this.m_eTextViewsElement, this.m_pTextViews );
-        	this.m_oUICleaner.addSingleElement(this.m_eElement, this.m_oTextViewNew);
         	
+        	if(window.LOADING_BOARD_VIEW)
+        	{
+        		window.BOARD_VIEW.addTextViews(this.m_oUICleaner, this.m_pTextViews, eContainerElement);
+        		this.m_eTextViewsElement = window.BOARD_VIEW.getElement();
+        		var oBoardViewFolder = window.BOARD_VIEW.getLatestFolderElement();
+        		this.m_eElement = oBoardViewFolder.getElement();
+        		
+        		this.m_oUICleaner.addSingleElement(this.m_eElement, this.m_oTextViewNew);
+        		this.m_oTextViewNew.setBoardViewFolder( oBoardViewFolder );
+        	}
+        	else
+        	{
+        		
+        		this.m_eElement.append(this.m_eTextViewsElement);
+        		this.m_oUICleaner.addElements( this.m_eTextViewsElement, this.m_pTextViews );
+        		this.m_oUICleaner.addSingleElement(this.m_eElement, this.m_oTextViewNew);
+        	}
         }
         
         Folder.prototype.postProcess = function() 
@@ -274,6 +314,8 @@ define(["thirdparty/jquery",
         
         Folder.prototype.loadAsBoardMode = function() 
         {
+        	window.BOARD_VIEW.clear();
+        	
         	var pFolderPaths = [];
         	for(var key in this.m_pSubFolders)
         	{

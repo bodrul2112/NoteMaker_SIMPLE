@@ -38,7 +38,7 @@ define(["thirdparty/jquery",
         {
         	this.m_eElement.on("click", function() {
         		
-        		console.log("subfolder",this.m_sFolderPath, this.m_sFolderName)
+        		window.BOARD_VIEW.clear();
         		window.EVENT_HUB.triggerEvent("removeFolders", {"after": this.m_sParentSigniture})
         		
         		this.loadFolder();

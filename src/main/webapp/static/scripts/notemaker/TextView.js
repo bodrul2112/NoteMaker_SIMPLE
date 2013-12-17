@@ -20,6 +20,13 @@ define(["thirdparty/jquery",
         	this.m_eElement = tpl.getTemplate(".textview")
         	
         	this.m_eElement.find('.textfile_content').val(this.sContent);
+        	
+        	this.m_oBoardViewFolder;
+        }
+        
+        TextView.prototype.setBoardViewFolder = function( oBoardViewFolder )
+        {
+        	this.m_oBoardViewFolder = oBoardViewFolder;
         }
         
         TextView.prototype.postProcess = function() 
@@ -27,28 +34,19 @@ define(["thirdparty/jquery",
         	
         	this.m_eElement.on( 'keyup', 'textarea', function (e){
         		
-        		var nOriginalScrollPos = this.m_oParentFolder.getScrollTop();
+        		var oContainerObj;
         		
+        		if(this.m_oBoardViewFolder){
+        			oContainerObj = this.m_oBoardViewFolder;
+        		}else{
+        			oContainerObj = this.m_oParentFolder;
+        		}
+        		
+        		var nOriginalScrollPos = oContainerObj.getScrollTop();
         		var eTextFile = this.m_eElement.find('.textfile_content');
         		eTextFile.css('height', 'auto' );
         		eTextFile.height( eTextFile[0].scrollHeight );
-        		
-        		/*
-        		
-        		var nScrollPos = eTextFile.position().top + eTextFile.height();
-        		
-        		if(nScrollPos < $('body').height())
-        		{
-        			this.m_oParentFolder.setScrollTop( 0 );
-        		}
-        		else
-        		{
-        			this.m_oParentFolder.setScrollTop( nScrollPos );
-        		}
-        		
-        		*/
-        		
-        		this.m_oParentFolder.setScrollTop( nOriginalScrollPos );
+        		oContainerObj.setScrollTop( nOriginalScrollPos );
         		
 			}.bind(this));
         	

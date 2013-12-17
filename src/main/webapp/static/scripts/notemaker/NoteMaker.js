@@ -14,6 +14,7 @@ define(["thirdparty/jquery",
         	
         	this.m_oFolders = new Folders();
         	this.m_oFolders.loadMainFolder("main");
+        	
         }
         
         NoteMaker.prototype._initialise = function()

@@ -20,8 +20,14 @@ define(["thirdparty/jquery",
         	this.sContent = "";
         	
         	this.m_eElement = tpl.getTemplate(".textview")
-        	
         	this.m_eElement.find('.textfile_content').val(this.sContent);
+        	
+        	this.m_oBoardViewFolder;
+        }
+        
+        TextViewNew.prototype.setBoardViewFolder = function( oBoardViewFolder )
+        {
+        	this.m_oBoardViewFolder = oBoardViewFolder;
         }
         
         TextViewNew.prototype.getParentSigniture = function() 
@@ -37,7 +43,21 @@ define(["thirdparty/jquery",
         		eTextFile.css('height', 'auto' );
         		eTextFile.height( eTextFile[0].scrollHeight );
         		
-			    this.m_oParentFolder.resetScrollTop();
+        		if(this.m_oBoardViewFolder)
+        		{
+        			var nOriginalScrollPos = this.m_oBoardViewFolder.getScrollTop();
+            		
+            		var eTextFile = this.m_eElement.find('.textfile_content');
+            		eTextFile.css('height', 'auto' );
+            		eTextFile.height( eTextFile[0].scrollHeight );
+            		
+            		this.m_oBoardViewFolder.setScrollTop( nOriginalScrollPos );
+        		}
+        		else
+        		{
+        			this.m_oParentFolder.resetScrollTop();
+        		}
+			    
 			}.bind(this));
         	
         	this.m_eElement.on( 'focusin', function(e){

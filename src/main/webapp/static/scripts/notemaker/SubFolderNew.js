@@ -41,8 +41,15 @@ define(["thirdparty/jquery",
         	
         	this.m_eElement.find('.boardModeBtn').on("click", function() {
         		
-        		window.EVENT_HUB.triggerEvent("removeFolders", {"after": this.m_sParentSigniture}); 
-        		this.m_oParentFolder.loadAsBoardMode();
+        		if(this.m_oParentFolder.hasSubFolders())
+        		{
+        			window.EVENT_HUB.triggerEvent("removeFolders", {"after": this.m_sParentSigniture}); 
+        			this.m_oParentFolder.loadAsBoardMode();
+        		}
+        		else
+        		{
+        			console.log("no subfolders to board view");
+        		}
         		
         	}.bind(this));
         }

@@ -2,10 +2,11 @@ define(["thirdparty/jquery",
     "services/TemplateService",
     "notemaker/loader/FolderLoader",
     "notemaker/FolderFactory",
-    "notemaker/util/UICleaner"
+    "notemaker/util/UICleaner",
+    "notemaker/features/boardview/BoardView"
     ],
 
-    function(jQuery, tpl, FolderLoader, FolderFactory, UICleaner) {
+    function(jQuery, tpl, FolderLoader, FolderFactory, UICleaner, BoardView) {
 
         var Folders = function( )
         {
@@ -37,6 +38,8 @@ define(["thirdparty/jquery",
         
         Folders.prototype.loadMainFolder = function( sMainFolderName )
         {
+        	window.BOARD_VIEW = new BoardView();
+        	
         	window.COUNTER = 1;
         	window.ROOT_FOLDER = this;
         	window.EVENT_HUB.registerEvent("loadFolder", this.m_sSigniture, this.onEvent.bind(this));
@@ -119,8 +122,12 @@ define(["thirdparty/jquery",
         	for(var key in this.m_pFolders)
         	{
         		var oFolder = this.m_pFolders[key];
-        		var nWidth = oFolder.getElement().width();
-        		nTotalWidths += nWidth;
+        		
+        		if(!oFolder.isBoardLoaded())
+        		{
+        			var nWidth = oFolder.getElement().width();
+        			nTotalWidths += nWidth;
+        		}
         	}
         	
         	

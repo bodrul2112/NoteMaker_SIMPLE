@@ -32,6 +32,7 @@
 	font-size: 13px;
 	
 	padding-top: 5px;
+	overflow-x: hidden;
 }
 
 .textview.editing {
