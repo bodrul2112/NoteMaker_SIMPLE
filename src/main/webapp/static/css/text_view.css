@@ -48,3 +48,21 @@
 	
 	border: 2px solid rgba(35, 156, 162, 0.2);
 }
+
+.textview .next {
+	width:100%;	
+}
+
+.textview .fileName {
+	width: 100%;
+	font-family: Calibri;
+	font-style: italic;
+	font-size: 13px;
+	text-indent: 6px;
+	background-color: #ADD2DF;
+	color: white;
+}
+
+.textview .replyButton {
+	
+}

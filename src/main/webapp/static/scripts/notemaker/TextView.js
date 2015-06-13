@@ -1,12 +1,13 @@
 define(["thirdparty/jquery",
     "services/TemplateService",
     "notemaker/loader/FolderLoader",
-    "notemaker/persist/FolderPersistance"
+    "notemaker/persist/FolderPersistance",
+    "notemaker/util/UICleaner"
     ],
 
-    function(jQuery, tpl, FolderLoader, FolderPersistance) {
+    function(jQuery, tpl, FolderLoader, FolderPersistance, UICleaner) {
 
-        var TextView = function( sFilePath, sContent, oParentFolder )
+        var TextView = function( sFilePath, sFileName, sContent, oParentFolder )
         {
         	this.m_oFolderPersistance = new FolderPersistance();
         	
@@ -15,13 +16,30 @@ define(["thirdparty/jquery",
         	this.m_sSigniture = "TextView_"+ (new Date().getTime());
         	
         	this.sFilePath = sFilePath;
+        	this.sFileName = sFileName;
         	this.sContent = sContent;
         	
         	this.m_eElement = tpl.getTemplate(".textview")
         	
+        	this.m_eElement.find('.fileName').text(this.sFileName);
         	this.m_eElement.find('.textfile_content').val(this.sContent);
         	
         	this.m_oBoardViewFolder;
+        	
+        	this.m_eNextElement = this.m_eElement.find('.next');
+        	this.m_oNext;
+        }
+        
+        TextView.prototype.isReply = function()
+        {
+        	return this.sFileName.startsWith("REP[");
+        }
+        
+        TextView.prototype.setNext = function( oTextView )
+        {
+        	this.m_oNext = oTextView;
+        	
+        	UICleaner.addSingleElement(this.m_eNextElement, oTextView)
         }
         
         TextView.prototype.setBoardViewFolder = function( oBoardViewFolder )

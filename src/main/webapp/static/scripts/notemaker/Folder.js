@@ -22,6 +22,7 @@ define(["thirdparty/jquery",
 
         	this.m_pSubFolders = [];
         	this.m_pTextViews = [];
+        	this.m_pTextViewReplies = [];
         	
         	this.m_oSubFolderNew = new SubFolderNew(this.m_sFolderPath, this.m_sSigniture, this);
         	this.m_oConcepts;
@@ -126,7 +127,12 @@ define(["thirdparty/jquery",
         
         Folder.prototype.addTextView = function( oTextView )
         {
-        	this.m_pTextViews.push( oTextView )
+        	if(oTextView.isReply()){
+        		this.m_pTextViewReplies.push( oTextView );
+        	}
+        	else{
+        		this.m_pTextViews.push( oTextView );
+        	}
         }
         
         Folder.prototype.setConcepts = function( oConcepts )

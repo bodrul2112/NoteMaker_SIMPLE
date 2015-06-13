@@ -41,9 +41,10 @@ define(["thirdparty/jquery",
         	for(var key in pTextViews)
         	{
         		var sFilePath = pTextViews[key].filePath;
+        		var sFileName = pTextViews[key].fileName;
         		var sContent = pTextViews[key].content;
         		
-        		var oTextView = new TextView( sFilePath, sContent, oFolder );
+        		var oTextView = new TextView( sFilePath, sFileName, sContent, oFolder );
         		oFolder.addTextView( oTextView );
         	}
         	
