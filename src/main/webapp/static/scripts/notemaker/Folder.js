@@ -245,6 +245,36 @@ define(["thirdparty/jquery",
         		this.m_oUICleaner.addElements( this.m_eTextViewsElement, this.m_pTextViews );
         		this.m_oUICleaner.addSingleElement(this.m_eElement, this.m_oTextViewNew);
         	}
+        	
+        	/** Replies **/
+        	
+        	for(var key in this.m_pTextViewReplies)
+        	{
+        		var oReply = this.m_pTextViewReplies[key];
+        		var sParentName = oReply.getParentName();
+        		
+        		var oParentTextView = this.getParentTextView(sParentName);
+        		oParentTextView.addReply(oReply );
+        	}
+        	
+        	for(var key in this.m_pTextViews)
+        	{
+        		var oTextView = this.m_pTextViews[key];
+        		oTextView.renderReplies();
+        	}
+        	
+        }
+        
+        Folder.prototype.getParentTextView = function( sParentName ) 
+        {
+        	for(var key in this.m_pTextViews)
+        	{
+        		var oTextView = this.m_pTextViews[key];
+        		if(oTextView.getName()==sParentName)
+        		{
+        			return oTextView;
+        		}
+        	}
         }
         
         Folder.prototype.postProcess = function() 

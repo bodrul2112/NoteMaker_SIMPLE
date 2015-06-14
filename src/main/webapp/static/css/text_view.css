@@ -64,5 +64,18 @@
 }
 
 .textview .replyButton {
-	
+	width:10px;
+	height:10px;
+	background-color: #ADD2DF;
+	float:right;
+}
+
+.next .textview {
+	border-left: 0px;
+	border-right: 0px;
+	border-bottom: 0px;
+	width: 98%;
+	background-color: rgb(240, 251, 255);
+	margin-left: 1%;
+	margin-bottom: 1%;
 }

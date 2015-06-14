@@ -9,6 +9,7 @@ define(["thirdparty/jquery",
 
         var TextView = function( sFilePath, sFileName, sContent, oParentFolder )
         {
+        	this.m_oUICleaner = new UICleaner();
         	this.m_oFolderPersistance = new FolderPersistance();
         	
         	this.m_oParentFolder = oParentFolder;
@@ -27,7 +28,34 @@ define(["thirdparty/jquery",
         	this.m_oBoardViewFolder;
         	
         	this.m_eNextElement = this.m_eElement.find('.next');
-        	this.m_oNext;
+        	this.m_pReplies = [];
+        }
+        
+        TextView.prototype.renderReplies = function()
+        {
+        	
+        	this.m_pReplies.sort(function(a, b) {
+        		  return a.getReplyNumber() - b.getReplyNumber();
+        	});
+        	
+        	for(var i=0; i<this.m_pReplies.length; i++)
+        	{
+        		var oReply = this.m_pReplies[i];
+        		if(i==0)
+        		{
+        			this.m_oUICleaner.addSingleElement(this.m_eNextElement, oReply);
+        		}
+        		else
+        		{
+        			var oPrevReply = this.m_pReplies[i-1];
+        			this.m_oUICleaner.addSingleElement(oPrevReply.getNext(), oReply);
+        		}
+        	}
+        }
+        
+        TextView.prototype.getNext = function()
+        {
+        	return this.m_eNextElement;
         }
         
         TextView.prototype.isReply = function()
@@ -35,11 +63,28 @@ define(["thirdparty/jquery",
         	return this.sFileName.startsWith("REP[");
         }
         
-        TextView.prototype.setNext = function( oTextView )
+        TextView.prototype.getReplyNumber = function()
         {
-        	this.m_oNext = oTextView;
+        	var nEnd = this.sFileName.indexOf("]")
+        	return this.sFileName.substring(4, nEnd);
+        }
+        
+        TextView.prototype.getName = function()
+        {
+        	return this.sFileName;
+        }
+        
+        TextView.prototype.getParentName = function()
+        {
+        	var nStart = this.sFileName.indexOf("]")+1;
+        	var nEnd = this.sFileName.length;
         	
-        	UICleaner.addSingleElement(this.m_eNextElement, oTextView)
+        	return this.sFileName.substring(nStart, nEnd);
+        }
+        
+        TextView.prototype.addReply = function( oTextView )
+        {
+        	this.m_pReplies.push(oTextView);
         }
         
         TextView.prototype.setBoardViewFolder = function( oBoardViewFolder )
