@@ -24,11 +24,14 @@ define(["thirdparty/jquery",
         	
         	this.m_eElement.find('.fileName').text(this.sFileName);
         	this.m_eElement.find('.textfile_content').val(this.sContent);
+        	this.m_eTextElement = this.m_eElement.find('.textfile_content');
         	
         	this.m_oBoardViewFolder;
         	
         	this.m_eNextElement = this.m_eElement.find('.next');
         	this.m_pReplies = [];
+        	
+        	this.m_bIsReply = sFileName.startsWith("REP[");
         }
         
         TextView.prototype.renderReplies = function()
@@ -60,7 +63,7 @@ define(["thirdparty/jquery",
         
         TextView.prototype.isReply = function()
         {
-        	return this.sFileName.startsWith("REP[");
+        	return this.m_bIsReply;
         }
         
         TextView.prototype.getReplyNumber = function()
@@ -95,7 +98,9 @@ define(["thirdparty/jquery",
         TextView.prototype.postProcess = function() 
         {
         	
-        	this.m_eElement.on( 'keyup', 'textarea', function (e){
+        	this.m_eTextElement.on( 'keyup', function (e){
+        		
+        		console.log("dfsggdg");
         		
         		var oContainerObj;
         		
@@ -105,11 +110,22 @@ define(["thirdparty/jquery",
         			oContainerObj = this.m_oParentFolder;
         		}
         		
-        		var nOriginalScrollPos = oContainerObj.getScrollTop();
-        		var eTextFile = this.m_eElement.find('.textfile_content');
+        		var eTextFile = this.m_eTextElement;
         		eTextFile.css('height', 'auto' );
         		eTextFile.height( eTextFile[0].scrollHeight );
+        		var nOriginalScrollPos = oContainerObj.getScrollTop();
         		oContainerObj.setScrollTop( nOriginalScrollPos );
+        		
+        		if(!this.isReply())
+        		{
+        			
+        		}
+        		else
+        		{
+        			//var eTextFile = this.m_eElement.find('.textfile_content');
+            		//eTextFile.css('height', 'auto' );
+            		//eTextFile.height( eTextFile[0].scrollHeight );
+        		}
         		
 			}.bind(this));
         	
@@ -121,7 +137,7 @@ define(["thirdparty/jquery",
         		
         		window.STAGE.stageObject(this.m_sSigniture, this);
         		
-        		var sContent = this.m_eElement.find('.textfile_content').val();
+        		var sContent = this.m_eTextElement.val();
         		
         		if(sContent.trim() == "")
         		{
@@ -132,10 +148,10 @@ define(["thirdparty/jquery",
         		
         	}.bind(this));
         	
-        	eTextArea = this.m_eElement.find('.textfile_content');
-        	
-        	eTextArea.css('height', 'auto' );
-        	eTextArea.height( eTextArea[0].scrollHeight );
+        	//eTextArea = this.m_eElement.find('.textfile_content');
+        	debugger;
+        	this.m_eTextElement.css('height', 'auto' );
+        	this.m_eTextElement.height( this.m_eTextElement[0].scrollHeight );
         	
         }
         
@@ -172,7 +188,7 @@ define(["thirdparty/jquery",
         TextView.prototype.addHasConceptFor = function( pConcepts )
         {
         	
-        	var sContentLowerCased = this.m_eElement.find('.textfile_content').val().toLowerCase();
+        	var sContentLowerCased = this.m_eTextElement.val().toLowerCase();
         	for(var key in pConcepts)
         	{
         		var sConcept = pConcepts[key];

@@ -143,8 +143,9 @@ define(["thirdparty/jquery",
         TextViewNew.prototype.removeEditingClass = function( mData )
         {
         	var filePath = mData.filePath;
+        	var fileName = mData.fileName;
         	var content = this.m_eElement.find('.textfile_content').val();
-        	var oTextView = new TextView(filePath, content, this.m_oParentFolder );
+        	var oTextView = new TextView(filePath, fileName, content, this.m_oParentFolder );
         	
         	this.m_oParentFolder.addTextViewAndRender( oTextView );
         	

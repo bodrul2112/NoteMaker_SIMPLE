@@ -27,7 +27,7 @@ import com.google.gson.Gson;
 @Path("/notemaker/")
 public class FileCrawlerWeb extends BaseJsonResource {
 	
-	private String rootFile = "E:/TESTINGZ";
+	private String rootFile = "D:/_DROPBOX_bodrul2112/Dropbox/_NOTEMAKER_WORK";
 //	private String rootFile = "F:/_DROPBOX/Dropbox/_NOTEMAKER_BLOB";
 	
 	public FileCrawlerWeb()
@@ -193,6 +193,8 @@ public class FileCrawlerWeb extends BaseJsonResource {
     		{
     			String action = saveFile(postData.get("filePath"), content);
     			postData.put("action", action);
+    			
+    			postData.put("fileName", new File(postData.get("filePath")).getName());
     		}
     		else{
     			deleteFile(postData.get("filePath"));
@@ -200,6 +202,7 @@ public class FileCrawlerWeb extends BaseJsonResource {
     		}
     		
     		postData.remove("content");
+    		
     		Gson gson = new Gson();
     		String json = gson.toJson(postData);
     		
