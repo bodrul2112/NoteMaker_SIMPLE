@@ -21,6 +21,7 @@ define(["thirdparty/jquery",
         	
         	this.m_eElement = tpl.getTemplate(".textview")
         	this.m_eElement.find('.textfile_content').val(this.sContent);
+        	this.m_eElement.addClass('textviewnew');
         	
         	this.m_oBoardViewFolder;
         }
@@ -157,9 +158,8 @@ define(["thirdparty/jquery",
         TextViewNew.prototype.createFileName = function()
         {
         	var d = new Date();
-            var dateStr =  d.getDate() +"-"+ (d.getMonth() + 1) +"-"+ d.getFullYear() +" "+ d.getHours()+"_"+d.getMinutes()+"_"+d.getSeconds()+"_"+d.getMilliseconds();
-            
-            return dateStr + ".txt";
+            //var dateStr =  d.getDate() +"-"+ (d.getMonth() + 1) +"-"+ d.getFullYear() +" "+ d.getHours()+"_"+d.getMinutes()+"_"+d.getSeconds()+"_"+d.getMilliseconds();
+            return ""+ d.getTime() + ".txt";
         }
         
         TextViewNew.prototype.getConceptsAsString = function( sNewConcept ) 

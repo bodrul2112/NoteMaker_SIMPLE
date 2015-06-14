@@ -22,9 +22,9 @@ define(["thirdparty/jquery",
         	
         	this.m_eElement = tpl.getTemplate(".textview")
         	
-        	this.m_eElement.find('.fileName').text(this.sFileName);
         	this.m_eElement.find('.textfile_content').val(this.sContent);
         	this.m_eTextElement = this.m_eElement.find('.textfile_content');
+        	this.m_eReplyButton = this.m_eElement.find('.replyButton');
         	
         	this.m_oBoardViewFolder;
         	
@@ -32,10 +32,35 @@ define(["thirdparty/jquery",
         	this.m_pReplies = [];
         	
         	this.m_bIsReply = sFileName.startsWith("REP[");
+        	
+        	if(this.m_bIsReply){
+        		var name = new Date( parseInt(this.getReplyNumber()) ).toDateString();
+        		this.m_eElement.find('.fileName').text(name);
+        	}else{
+        		
+        		if(this.sFileName.indexOf("_") > 0)
+        		{
+        			var dateParts = this.sFileName.substring(0, this.sFileName.indexOf(".")).split(" ")[0].split("-");
+        			var sDateNameFromParts = dateParts[2]+"-"+dateParts[1]+"-"+dateParts[0];
+        			var name = new Date(sDateNameFromParts).toDateString();
+        			
+        			this.m_eElement.find('.fileName').text(name);
+        		}
+        		else
+        		{
+        			var name = new Date(parseInt( this.sFileName.substring(0, this.sFileName.indexOf(".")))).toDateString();
+        			this.m_eElement.find('.fileName').text(name);
+        		}
+        	}
         }
         
         TextView.prototype.renderReplies = function()
         {
+        	for(var i=0; i<this.m_pReplies.length; i++)
+        	{
+        		var oReply = this.m_pReplies[i];
+        		oReply.getElement().remove();
+        	}
         	
         	this.m_pReplies.sort(function(a, b) {
         		  return a.getReplyNumber() - b.getReplyNumber();
@@ -44,15 +69,7 @@ define(["thirdparty/jquery",
         	for(var i=0; i<this.m_pReplies.length; i++)
         	{
         		var oReply = this.m_pReplies[i];
-        		if(i==0)
-        		{
-        			this.m_oUICleaner.addSingleElement(this.m_eNextElement, oReply);
-        		}
-        		else
-        		{
-        			var oPrevReply = this.m_pReplies[i-1];
-        			this.m_oUICleaner.addSingleElement(oPrevReply.getNext(), oReply);
-        		}
+        		this.m_oUICleaner.addSingleElement(this.m_eNextElement, oReply);
         	}
         }
         
@@ -148,11 +165,33 @@ define(["thirdparty/jquery",
         		
         	}.bind(this));
         	
+        	this.m_eReplyButton.on('click', function(e){
+        		
+        		window.STAGE.stageObject(this.m_sSigniture, this);
+        		
+        		var nTime =  (new Date()).getTime();
+        		var sFilePath = this.m_oParentFolder.m_sFolderPath + "/REP["+nTime+"]" + this.sFileName;
+        		var sContent= ".";
+        		
+				this.m_oFolderPersistance.saveTextView(sFilePath, this.m_sSigniture, sContent, { "type": "addReply" });
+        		
+        	}.bind(this));
+        	
         	//eTextArea = this.m_eElement.find('.textfile_content');
-        	debugger;
         	this.m_eTextElement.css('height', 'auto' );
         	this.m_eTextElement.height( this.m_eTextElement[0].scrollHeight );
         	
+        }
+        
+        TextView.prototype.addReplyBox = function( mData ) 
+        {
+        	var filePath = mData.filePath;
+        	var fileName = mData.fileName;
+        	var content = ".";
+        	var oTextView = new TextView(filePath, fileName, content, this.m_oParentFolder );
+        	
+        	this.addReply( oTextView );
+        	this.m_oUICleaner.addSingleElement(this.m_eNextElement, oTextView);
         }
         
         TextView.prototype.getElement = function() 

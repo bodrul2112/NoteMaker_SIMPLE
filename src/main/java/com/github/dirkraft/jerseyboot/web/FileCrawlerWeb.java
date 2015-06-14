@@ -27,12 +27,11 @@ import com.google.gson.Gson;
 @Path("/notemaker/")
 public class FileCrawlerWeb extends BaseJsonResource {
 	
-	private String rootFile = "D:/_DROPBOX_bodrul2112/Dropbox/_NOTEMAKER_WORK";
-//	private String rootFile = "F:/_DROPBOX/Dropbox/_NOTEMAKER_BLOB";
+	private String rootFile = "E:/TESTINGZ";
 	
 	public FileCrawlerWeb()
 	{
-		//rootFile = new File("").getAbsolutePath();
+		rootFile = new File("").getAbsolutePath();
 	}
 	
 	@GET

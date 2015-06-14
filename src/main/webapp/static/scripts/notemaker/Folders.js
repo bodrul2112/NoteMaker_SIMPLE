@@ -157,7 +157,11 @@ define(["thirdparty/jquery",
         	var oTextView = window.STAGE.getStagedObject( mData.signiture );
         	window.STAGE.unstageObject( mData.signiture );
         	
-        	if(mData.action == "saved" || mData.action == "created")
+        	if(mData.type == "addReply")
+        	{
+        		oTextView.addReplyBox( mData );
+        	}
+        	else if(mData.action == "saved" || mData.action == "created")
         	{
         		oTextView.removeEditingClass( mData );
         	}
