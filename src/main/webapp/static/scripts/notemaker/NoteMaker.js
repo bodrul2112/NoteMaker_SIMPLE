@@ -3,10 +3,11 @@ define(["thirdparty/jquery",
     "services/TemplateService",
     "notemaker/Folders",
     "notemaker/event/EventHub",
-    "notemaker/event/Stage"
+    "notemaker/event/Stage",
+    "notemaker/wall/Wall"
     ],
 
-    function(jQuery, tpl, Folders, EventHub, Stage) {
+    function(jQuery, tpl, Folders, EventHub, Stage, Wall) {
 
         var NoteMaker = function( )
         {
@@ -14,6 +15,8 @@ define(["thirdparty/jquery",
         	
         	this.m_oFolders = new Folders();
         	this.m_oFolders.loadMainFolder("main");
+        	
+        	this.m_oWall = new Wall();
         	
         }
         
